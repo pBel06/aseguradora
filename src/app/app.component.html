@@ -1,0 +1,19 @@
+<!-- <app-header class="header" *ngIf="isLoggedIn()"></app-header> -->
+<!-- <side-menu *ngIf="isLoggedIn()"></side-menu> -->
+<!--  app-header class="header"></app-header>
+<router-outlet></router-outlet> -->
+
+<app-header *ngIf="isLoggedIn()"></app-header>
+<router-outlet></router-outlet>
+          
+  <!-- PAGINA DE INICIO ORIGINAL-->
+  <!-- <nav class ='navbar navbar-expand navbar-light bg-light'>
+    <a class='navbar-brand'>{{title}}</a>
+    <ul class = 'nav nav-pills'>
+      <li><a class='nav-link' [routerLink]="['/welcome']">Welcome</a></li>
+      <li><a class='nav-link' [routerLink]="['/products']">Product List</a></li>
+    </ul>
+  </nav>
+<div class='container'>
+  <router-outlet></router-outlet>
+</div> -->

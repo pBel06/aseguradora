@@ -1,0 +1,67 @@
+<!-- <nav>
+    <a id="mp" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Autolink</a>
+        <a href="#" data-target="md" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="#">Usuarios</a></li>
+            <li><a href="/talleres">Talleres</a></li>
+            <li><a href="#">Salir</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='principalUsuario()'>Usuarios</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='principalTaller()'>Talleres</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='principalAseguradora()'>Aseguradoras</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='principalMarca()'>Marcas</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='principalModelo()'>Modelos</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='principalProveedor()'>Proveedores</a></li>
+            <li><a class="waves-effect waves-light btn" (click)='logOut()'>Salir</a></li>
+        </ul>
+    </div>
+</nav> -->
+
+
+<nav id="nav-principal" *ngIf='userLog'>
+    <!-- <a id="mp" style="color:#fff;cursor:pointer" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Autolink</a>
+        <!-- <a data-target="md" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
+        <ul class="right hide-on-med-and-down">
+            <li><a (click)='principalUsuario()'>Usuarios</a></li>
+            <li><a (click)='principalTaller()'>Talleres</a></li>
+            <li><a (click)='principalAseguradora()'>Aseguradoras</a></li>
+            <li><a (click)='principalMarca()'>Marcas</a></li>
+            <li><a (click)='principalModelo()'>Modelos</a></li>
+            <li><a (click)='principalProveedor()'>Proveedores</a></li>
+            <li><a (click)='logOut()'>Salir</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- <ul class="sidenav" id="md">
+    <li><a (click)='principalUsuario()'>Usuarios</a></li>
+            <li><a (click)='principalTaller()'>Talleres</a></li>
+            <li><a (click)='principalAseguradora()'>Aseguradoras</a></li>
+            <li><a (click)='principalMarca()'>Marcas</a></li>
+            <li><a (click)='principalModelo()'>Modelos</a></li>
+            <li><a (click)='principalProveedor()'>Proveedores</a></li>
+            <li><a (click)='logOut()'>Salir</a></li>
+</ul>
+
+<ul id="slide-out" class="sidenav" >
+    <li>
+        <div class="user-view">
+            <div class="background">
+                <img src="../assets/images/usr_bgr.jpg" alt="Usuario"/>
+            </div>
+            <span class="name">{{userLog.nombre}}</span>
+            <span class="email">{{userLog.user}}</span>      
+        </div>
+    </li>
+    <li><a href="#"><i class="material-icons">mail</i>Opci&oacute;n 1</a></li>
+    <li><a href="#"><i class="material-icons">event_available</i>Opci&oacute;n 2</a></li>
+    <li><a href="#"><i class="material-icons">insert_chart</i>Opci&oacute;n 3</a></li>
+    <li><a href="#"><i class="material-icons">local_offer</i>Opci&oacute;n 4</a></li>
+    <li><div class="divider"></div></li>
+    <li><a href="#"><i class="material-icons">location_on</i>Opci&oacute;n 5</a></li>
+    <li><a href="#"><i class="material-icons">mode_comment</i>Opci&oacute;n 6</a></li>
+    <li><a href="#"><i class="material-icons">new_releases</i>Opci&oacute;n 7</a></li>
+    <li><a href="#"><i class="material-icons">person</i>Opci&oacute;n 8</a></li>
+</ul> -->

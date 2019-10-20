@@ -1,0 +1,125 @@
+<div class="row">
+    <div class="col s12">
+        <h5 class="left">Administraci&oacute;n de Aseguradoras</h5>
+        <a style="margin-top:15.853px" class="btn-floating purple darken-4 modal-trigger" ><i class="material-icons" (click)='agregarAseguradora()'>add</i></a>
+        <span style="clear:both"></span>
+        <a style="margin-top:15.853px" class="btn-floating yellow darken-1" ><i class="material-icons" (click)='editarAseguradora()'>edit</i></a>
+        <a style="margin-top:15.853px" class="btn-floating blue modal-trigger" ><i class="material-icons" (click)='verAseguradora()'>visibility</i></a>
+        <span style="clear:both"></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+        <p-table [columns]="cols" [value]="aseguradoras" [(selection)]="_aseguradoraSelected" dataKey="nombre">
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th style="width: 3em">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th *ngFor="let col of columns">
+                        {{col.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+                <tr [pSelectableRow]="rowData">
+                    <td>
+                        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                    </td>
+                    <td *ngFor="let col of columns">
+                        {{rowData[col.field]}}
+                    </td>    
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <ul>
+                    <li *ngFor="let aseg of _aseguradoraSelected" style="text-align: left">
+                        {{aseg.id + ' - ' + aseg.nombre}}
+                    </li>
+                </ul>
+            </ng-template>
+        </p-table>
+    </div>
+  </div>
+  
+  <!-- MODAL PARA AGREGAR ASEGURADORA -->
+  <p-dialog [(visible)]="displayDialog" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [showHeader]="true" showEffect="fade" [modal]="true" [style]="{width: '720px', height: '48px'}">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+        <h5 class="modal-title">Ingrese un nuevo taller</h5>
+             <form [formGroup]="registrarAseguradoraForm">
+            <p-panel [showHeader]="false">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <div class="input-field">
+                        <input type="text" id="name" formControlName="nombre" class="validate"/>
+                        <label for="name">Nombre</label>
+                    </div>
+                    <div class="input-field">
+                        <label for="estadoAseguradora">Estado</label><br/><br/>
+                        <p-dropdown [options]="estadosAseguradora" formControlName="estadoAseguradora" [(ngModel)]="_estadoAseguradora" class="validate"></p-dropdown>
+                        <p>Estado seleccionado: {{_estadoAseguradora ? _estadoAseguradora : 'none'}}</p>
+                    </div>
+                    <div class="input-field">
+                            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarAseguradora()">Guardar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                </div>   
+            </p-panel> 
+        </form> 
+    </div>
+  </p-dialog>
+  
+  <!-- MODAL PARA EDITAR ASEGURADORA -->
+  <p-dialog [(visible)]="dialogEditAseg" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [showHeader]="true" showEffect="fade" [modal]="true" [style]="{width: '720px', height: '48px'}">
+        <div class="ui-grid ui-grid-responsive ui-fluid">
+            <!-- <h5 class="modal-title">Actualizacion de usuario</h5> -->
+                 <form [formGroup]="updateAsegForm">
+                <p-panel [showHeader]="false">
+                  <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                        <div class="input-field">
+                            <input pInputText id="idAseg" formControlName="idAseg" style="visibility:hidden"/>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="nombre" formControlName="nombre" class="validate"/>
+                            <!-- <label for="name">Nombre</label> -->
+                        </div>
+                        <div class="input-field">
+                            <label for="estadoTaller">Estado</label><br/><br/>
+                            <p-dropdown [options]="estadosAseguradora" formControlName="estadoAseg" [(ngModel)]="_estadoAseguradora" class="validate"></p-dropdown>
+                            <p>Estado seleccionado: {{_estadoAseguradora ? _estadoAseguradora : 'none'}}</p>
+                        </div>
+                        <div class="input-field">
+                            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarAseguradora()">Actualizar
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>   
+                </p-panel> 
+            </form> 
+        </div>
+      </p-dialog>
+
+  <!-- MODAL PARA VISUALIZAR ASEGURADORA -->
+  <p-dialog [(visible)]="dialogVerAseg" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [showHeader]="true" showEffect="fade" [modal]="true" [style]="{width: '720px', height: '48px'}">
+      <div class="ui-grid ui-grid-responsive ui-fluid">
+          <!-- <h5 class="modal-title">Informacion de taller</h5> -->
+               <form [formGroup]="verAseguradoraForm">
+              <p-panel [showHeader]="false">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                    <h5 class="valign-wrapper">
+                        <i class="material-icons" style="margin-right: 10px">account_circle</i><input type="text" id="idAseg" formControlName="nombre" class="validate" disabled/>
+                    </h5>
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="estadoA" formControlName="estadoAseguradora" class="validate" disabled/>
+                    </div>
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="fechaC" formControlName="fechaCreacion" class="validate" disabled/>
+                    </div>
+                  </div>   
+              </p-panel> 
+          </form> 
+      </div>
+    </p-dialog>
+ 
