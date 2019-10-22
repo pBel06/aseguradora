@@ -10,12 +10,29 @@ import { LoginService } from './login/login.service';
 export class AppComponent {
  // title = 'Aseguradora';
   isLogged : boolean;
+  isReset: boolean;
   
   constructor(private  route:ActivatedRoute, private router:Router, private authService: LoginService){}
 
   ngOnInit():void{
-    this.router.navigate(['/login']);
+    this.isReset = this.isResetContra();
+    this.isLogged = this.isLoggedIn();
     
+
+
+    if(this.isReset){
+      this.router.navigate(['/resetContrasena']);
+    }else if(this.isLogged){
+      this.router.navigate(['/users']);
+    }else{
+      this.router.navigate(['/login']);
+    }
+  }
+
+  isResetContra():boolean{
+    let reset = localStorage.getItem('resetContra');
+    this.isReset = (reset != null ?true: false);
+    return this.isReset;
   }
 
   isLoggedIn(){

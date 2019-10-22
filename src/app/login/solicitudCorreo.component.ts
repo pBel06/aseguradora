@@ -26,6 +26,13 @@ export class SolicitudCorreoComponent implements OnInit{
 
     enviarCorreo(){
       console.log("Hacemos la solicitud para el envio de correo para cambiar contraseña...");
-      this.router.navigate(['/resetContrasena']);
+      localStorage.setItem('resetContra',JSON.stringify(true));
+      this.loginService.solicitudCorreo(this.solicEmailForm.controls['username'].value).subscribe({
+        next: generResp => {
+                console.log("Se ha enviado correo ....");
+        },
+        error: err=>this.errorMessage=err
+      })
+      //this.router.navigate(['/resetContrasena']);
     }
 }

@@ -6,6 +6,7 @@ import {catchError, tap} from 'rxjs/operators';
 import { FormGroup,FormControl } from '@angular/forms';
 import { ILoginResponse } from '../_model/loginResponse.model';
 import { IUser } from '../_model/user.model';
+import { IGenericResponse } from '../_model/genericResponse.model';
 
 @Injectable({
     providedIn: 'root'
@@ -15,6 +16,7 @@ export class LoginService{
     private loginUrlBase="http://localhost:8014/autolink";
     //private loginUrl = "http://localhost:8014/autolink/rest/login";
     usuarioReset:IUser;
+    genResponse: IGenericResponse;
    
 
     constructor(private http: HttpClient){}
@@ -66,11 +68,28 @@ export class LoginService{
     localStorage.clear();
   }
 
+  solicitudCorreo(userR: string):Observable<IGenericResponse>{
+    console.log("Llamaremos al servicio de login");
+    let body = JSON.stringify({ user: userR});
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {user: userR}
+    };
+    console.log("Usuario solicitante cambio de contraseña: " + body);
+    return this.http.get<IGenericResponse>(this.loginUrlBase+'/rest/recover',httpOptions).pipe(
+      tap(data => {
+        console.log('Response servicio correo' +JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
   cambiarContraseña(userR: string, passR:string):Observable<IUser>{
     console.log("Llamaremos al servicio para guardar la nueva contraseña "+ userR + " " +  passR);
-    //actualizarUsrForm.controls['id'].setValue(+actualizarUsrForm.controls['id'].value);
-    //this.usuarioReset=JSON.parse(JSON.stringify({"usuario": userR,"nombre": "nombre3","pass":passR,"email":"email4","tipo":1}));
-    this.usuarioReset=JSON.parse(JSON.stringify({"usuario": userR,"pass":passR}));
+    this.usuarioReset=JSON.parse(JSON.stringify({
+      "usuario": userR,
+      "contra":passR
+    }));
     let body = this.usuarioReset;
     const httpOptions = {
       headers: new HttpHeaders({

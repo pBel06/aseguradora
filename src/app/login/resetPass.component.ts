@@ -28,6 +28,7 @@ export class ResetPassComponent implements OnInit{
     ngOnInit() {
         console.log("Cargando ventana de cambio de contraseña ...");
         //this.returnUrl = this.route.snapshot.queryParams['welcome'] || '/';
+        localStorage.removeItem('resetContra');
     }
 
     cambiarPass(){
@@ -35,16 +36,15 @@ export class ResetPassComponent implements OnInit{
             console.log("Las contraseñas deben coincidir ...");
         }else{
             console.log("Llamamos al servicio de guardar usuario para actualizar su contraseña ...");
-            this.userTemp = this.resetPassForm.controls['username'].value;
-            this.passTemp = this.resetPassForm.controls['pwd'].value;
-           this.loginService.cambiarContraseña(this.userTemp,this.passTemp)
+           this.loginService.cambiarContraseña(this.resetPassForm.controls['username'].value, this.resetPassForm.controls['pwd'].value)
             .subscribe({
                 next: userLog => {
-                    console.log("*** Obtuvimos el usuario del logon: " + JSON.stringify(userLog));
+                    console.log("*** Obtuvimos el usuario del cambio de contrasenha: " + JSON.stringify(userLog));
+                    this.router.navigate(['/login']);
                 },
                 error: err=>this.errorMessage=err
             });
         }
-        this.router.navigate(['/login']);
+       
     }
 }
