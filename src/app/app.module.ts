@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { FormsModule, ReactiveFormsModule,FormBuilder ,FormGroup  } from '@angular/forms';
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
@@ -11,6 +13,9 @@ import {DropdownModule} from 'primeng/dropdown';
 import {TableModule} from 'primeng/table';
 import {InputTextModule} from 'primeng/inputtext';
 import {PaginatorModule} from 'primeng/paginator';
+import { GrowlModule } from "primeng/components/growl/growl";
+import { Message } from "primeng/components/common/api";
+
 
 import { LoginComponent } from "./login/login.component";
 import { UserListComponent } from './users/user-list.component';
@@ -29,15 +34,16 @@ import { AseguradoraListComponent } from './aseguradora/aseguradora.component';
 import { MarcaListComponent } from './marca/marca-list.component';
 import { ProveedorListComponent } from './proveedor/proveedor-list.component';
 import { ModeloListComponent } from './modelo/modelo-list.component';
+import { AlertComponent } from './alert/alert.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,ProductDetailComponent,
-    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent
+    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent
   ],
   imports: [
-    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,
+    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,
     RouterModule.forRoot([
       {path: 'login',component: LoginComponent},
       {path: 'solicitudCorreo',component: SolicitudCorreoComponent},

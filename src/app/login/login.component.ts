@@ -4,12 +4,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {LoginService} from './login.service';
 import { FormGroup,  FormControl ,FormBuilder, Validators } from '@angular/forms';
 import { ILoginResponse } from '../_model/loginResponse.model';
+import { Message } from 'primeng/primeng';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
     templateUrl: './login.component.html'
     //styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit{
+    msgs: Message[] = [];
     loading = false;
     submitted = false;
     returnUrl: string;
@@ -23,7 +26,7 @@ export class LoginComponent implements OnInit{
       pwd: new FormControl('',Validators.required),
     });
 
-    constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private router: Router, private loginService: LoginService) {}
+    constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private router: Router, private loginService: LoginService,private alertService: AlertService) {}
 
     ngOnInit() {
         console.log("Cargando ventana de login ...");
@@ -75,6 +78,11 @@ export class LoginComponent implements OnInit{
                      this.router.navigate(['/users']);
                 }else{
                     console.log("No se ha podido autenticar");
+                    this.loginForm.controls['username'].setValue("");
+                    this.loginForm.controls['pwd'].setValue("");
+                    this.msgs = [];
+                    this.msgs.push({severity:'danger', summary:'Login fallido', detail:'Ingrese credenciales válidas'});
+                    this.alertService.error("No se ha podido autenticar");
                     this.router.navigate(['/login']);
                 }
             },
