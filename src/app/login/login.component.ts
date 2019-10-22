@@ -48,29 +48,35 @@ export class LoginComponent implements OnInit{
 
         this.loginService.getUserLogOn(this.loginForm.controls['username'].value,this.loginForm.controls['pwd'].value).subscribe({
             next: userLog => {
+                //
                 console.log("*** Obtuvimos el usuario del logon: " + JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
                 this.userResponse= userLog;
-                console.log("Valores de los usuarios --> nombre (antes del for): " + this.userResponse.nombre);
+                if(this.userResponse.mensaje == "Ingreso exitoso"){
+                    localStorage.setItem('currentUser',JSON.stringify(this.userResponse));
+                    console.log("Valores de los usuarios --> nombre (antes del for): " + this.userResponse.nombre);
 
-               // let userLogOn =JSON.parse(localStorage.getItem('currentUser'));// || [];
-                console.log("Mostrando los datos del usuario logeado...");
-
-                for (let i = 0; i < localStorage.length; i++){
-                    let key = localStorage.key(i);
-                    let value = localStorage.getItem(key);
-                    console.log(key, value);
+                    // let userLogOn =JSON.parse(localStorage.getItem('currentUser'));// || [];
+                     console.log("Mostrando los datos del usuario logeado...");
+     
+                     for (let i = 0; i < localStorage.length; i++){
+                         let key = localStorage.key(i);
+                         let value = localStorage.getItem(key);
+                         console.log(key, value);
+                     }
+                     /*for(let key in this.userResponse){
+                         if(this.userResponse.hasOwnProperty(key)){
+                             //console.log("Valores de los usuarios --> id: " + this.userResponse[key].id);
+                             console.log("Valores de los usuarios --> nombre: " + this.userResponse[key].nombre);
+                             console.log("Valores de los usuarios --> usuario: " + this.userResponse[key].user);
+                             console.log("Valores de los usuarios --> idTipo: " + this.userResponse[key].idTipo);
+                             console.log("Valores de los usuarios --> idTipo: " + this.userResponse[key].tipo);
+                         }
+                     }*/
+                     this.router.navigate(['/users']);
+                }else{
+                    console.log("No se ha podido autenticar");
+                    this.router.navigate(['/login']);
                 }
-
-                /*for(let key in this.userResponse){
-                    if(this.userResponse.hasOwnProperty(key)){
-                        //console.log("Valores de los usuarios --> id: " + this.userResponse[key].id);
-                        console.log("Valores de los usuarios --> nombre: " + this.userResponse[key].nombre);
-                        console.log("Valores de los usuarios --> usuario: " + this.userResponse[key].user);
-                        console.log("Valores de los usuarios --> idTipo: " + this.userResponse[key].idTipo);
-                        console.log("Valores de los usuarios --> idTipo: " + this.userResponse[key].tipo);
-                    }
-                }*/
-                this.router.navigate(['/users']);
             },
             error: err=>this.errorMessage=err
         });
