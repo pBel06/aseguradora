@@ -4,6 +4,7 @@ import {Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { IAseguradora } from '../_model/aseguradora.model';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { IAseguradora } from '../_model/aseguradora.model';
 
 export class AseguradoraService{
   private aseguradoraUrlBase = 'http://localhost:8014/autolink';
+  userL: ILoginResponse;
   nuevaAseg: IAseguradora[];
   actualizarAseg:IAseguradora;
 
@@ -33,10 +35,12 @@ export class AseguradoraService{
     guardarAseguradora(registrarAseguradoraForm:FormGroup,estado:boolean):Observable<IAseguradora>{
         console.log("Llamaremos al servicio para guardar una nueva aseguradora .. ");
         let mydate = new Date();
+        this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
         this.nuevaAseg=JSON.parse(JSON.stringify({
           "nombre":registrarAseguradoraForm.controls['nombre'].value,
           "fechacreacion": mydate,
-          "estado": ( estado ? true: false)
+          "estado": ( estado ? true: false),
+          "usuariocrea":this.userL.nombre
         }));
         let body = this.nuevaAseg;
         const httpOptions = {

@@ -4,6 +4,7 @@ import {Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { IRepuesto } from '../_model/repuesto.model';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { IRepuesto } from '../_model/repuesto.model';
 
 export class RepuestoService{
   private repUrlBase = 'http://localhost:8014/autolink';
+  userL: ILoginResponse;
   nuevoRep: IRepuesto[];
   actualizaRep:IRepuesto;
 
@@ -33,11 +35,13 @@ export class RepuestoService{
     guardarRepuesto(nuevoRepFrom:FormGroup,_estadoRepuesto:boolean):Observable<IRepuesto>{
       console.log("Llamaremos al servicio para guardar un nuevo repuesto .. ");
       let mydate = new Date();
+      this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
       this.nuevoRep=JSON.parse(JSON.stringify({
         "nombre":nuevoRepFrom.controls['nombre'].value,
         "valor":nuevoRepFrom.controls['valor'].value,
         "estado": ( _estadoRepuesto ? true: false),
-        "fechacreacion": mydate
+        "fechacreacion": mydate,
+        "usuariocrea": this.userL.nombre
       }));
       let body = this.nuevoRep;
       const httpOptions = {

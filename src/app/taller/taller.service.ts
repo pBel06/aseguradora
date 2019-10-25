@@ -4,6 +4,7 @@ import {Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import { ITaller } from '../_model/taller.model';
 import { FormGroup } from '@angular/forms';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { FormGroup } from '@angular/forms';
 
 export class TallerService{
   private tallerUrlBase = 'http://localhost:8014/autolink';
+  userL: ILoginResponse
   nuevoTlr: ITaller[];
   actualizarTal:ITaller;
 
@@ -33,10 +35,12 @@ export class TallerService{
     guardarTaller(nuevoTlrFrom:FormGroup,_estadoTaller:boolean):Observable<ITaller>{
       console.log("Llamaremos al servicio para guardar un nuevo taller .. ");
       let mydate = new Date();
+      this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
       this.nuevoTlr=JSON.parse(JSON.stringify({
         "nombre":nuevoTlrFrom.controls['nombre'].value,
         "estado": ( _estadoTaller ? true: false),
-        "fechacreacion": mydate
+        "fechacreacion": mydate,
+        "usuariocrea":this.userL.nombre
       }));
       let body = this.nuevoTlr;
       const httpOptions = {

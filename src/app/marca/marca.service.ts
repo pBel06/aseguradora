@@ -4,6 +4,7 @@ import {Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { IMarca } from '../_model/marca.model';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { IMarca } from '../_model/marca.model';
 
 export class MarcaService{
   private marcaUrlBase = 'http://localhost:8014/autolink';
+  userL: ILoginResponse;
   nuevoMrc: IMarca[];
   actualizarMrc:IMarca;
 
@@ -33,10 +35,12 @@ export class MarcaService{
     guardarMarca(nuevoMrcFrom:FormGroup,_estadoMarca:boolean):Observable<IMarca>{
       console.log("Llamaremos al servicio para guardar una nueva marca .. ");
       let mydate = new Date();
+      this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
       this.nuevoMrc=JSON.parse(JSON.stringify({
         "nombre":nuevoMrcFrom.controls['nombre'].value,
         "estado": ( _estadoMarca ? true: false),
-        "fechacreacion": mydate
+        "fechacreacion": mydate,
+        "usuariocrea": this.userL.nombre
       }));
       let body = this.nuevoMrc;
       const httpOptions = {

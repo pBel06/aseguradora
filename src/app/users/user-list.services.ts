@@ -7,6 +7,7 @@ import { ITipoUsuario } from '../_model/tipoUsuario.model';
 import { FormGroup } from '@angular/forms';
 import { IUserVista } from '../_model/userVista.model';
 import { DatePipe } from '@angular/common';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ import { DatePipe } from '@angular/common';
 
 export class UserService{
   private usuariosUrlBAse = 'http://localhost:8014/autolink';
+  userL: ILoginResponse;
   nuevoUsr:IUser;
   actualizarUsr:IUser;
   actualizarUsr2:IUser;
@@ -63,13 +65,15 @@ export class UserService{
       //actualizarUsrForm.controls['id'].setValue(+actualizarUsrForm.controls['id'].value);
       //this.usuarioReset=JSON.parse(JSON.stringify({"usuario": userR,"nombre": "nombre3","pass":passR,"email":"email4","tipo":1}));
       let mydate = new Date();
+      this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
       this.nuevoUsr=JSON.parse(JSON.stringify({
 
         "usuario": nuevoUsrFrom.controls['usuario'].value,
         "nombre":nuevoUsrFrom.controls['nombre'].value,
         "tipo": _tipoSeleccionado,
         "estado": (_estadoUsuario ? true: false),
-        "fechacreacion": mydate
+        "fechacreacion": mydate,
+        "usuariocrea": this.userL.nombre
       }));
       let body = this.nuevoUsr;
       const httpOptions = {

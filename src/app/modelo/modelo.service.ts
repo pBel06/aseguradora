@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { IModelo } from '../_model/modelo.model';
 import { IMarca } from '../_model/marca.model';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ import { IMarca } from '../_model/marca.model';
 
 export class ModeloService{
   private modeloUrlBAse = 'http://localhost:8014/autolink';
+  userL: ILoginResponse;
   nuevoMdl:IModelo;
   actualizarMdl:IModelo;
   //actualizarUsr2:IUser;
@@ -51,11 +53,13 @@ export class ModeloService{
     guardarModelo(nuevoMdlFrom:FormGroup,_tipoSeleccionado:string,_estadoModelo:boolean):Observable<IModelo>{
       console.log("Llamaremos al servicio para guardar un nuevo modelo .. ");
       let mydate = new Date();
+      this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
       this.nuevoMdl=JSON.parse(JSON.stringify({
         "nombre":nuevoMdlFrom.controls['nombre'].value,
         "marca": _tipoSeleccionado,
         "estado": (_estadoModelo ? true: false),
-        "fechacreacion": mydate
+        "fechacreacion": mydate,
+        "usuariocrea":this.userL.nombre
       }));
       let body = this.nuevoMdl;
       const httpOptions = {

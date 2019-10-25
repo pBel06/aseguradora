@@ -4,6 +4,7 @@ import {Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { IProveedor } from '../_model/proveedor.model';
+import { ILoginResponse } from '../_model/loginResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { IProveedor } from '../_model/proveedor.model';
 
 export class ProveedorService{
   private provUrlBase = 'http://localhost:8014/autolink';
+  userL: ILoginResponse;
   nuevoProv: IProveedor[];
   actualizaProv:IProveedor;
 
@@ -33,11 +35,13 @@ export class ProveedorService{
     guardarProveedor(nuevoProvFrom:FormGroup,_estadoProveedor:boolean):Observable<IProveedor>{
       console.log("Llamaremos al servicio para guardar un nuevo proveedor .. ");
       let mydate = new Date();
+      this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
       this.nuevoProv=JSON.parse(JSON.stringify({
         "nombre":nuevoProvFrom.controls['nombre'].value,
         "direccion":nuevoProvFrom.controls['direccion'].value,
         "estado": ( _estadoProveedor ? true: false),
-        "fechacreacion": mydate
+        "fechacreacion": mydate,
+        "usuariocrea": this.userL.nombre
       }));
       let body = this.nuevoProv;
       const httpOptions = {
