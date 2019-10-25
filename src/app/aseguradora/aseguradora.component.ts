@@ -1,8 +1,9 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {SelectItem, Message} from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IAseguradora } from '../_model/aseguradora.model';
 import { AseguradoraService } from './aseguradora.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   templateUrl:'./aseguradora-list.component.html'
@@ -10,6 +11,7 @@ import { AseguradoraService } from './aseguradora.service';
 })
 
 export class AseguradoraListComponent implements OnInit{
+  msgs: Message[] = [];
   aseguradoras: IAseguradora[]=[];
   _aseguradoraSelected: IAseguradora[];
   cols: any[];
@@ -28,7 +30,7 @@ export class AseguradoraListComponent implements OnInit{
   
   updateTallerForm: FormGroup;
 
-constructor(private aseguradoraService: AseguradoraService){
+constructor(private aseguradoraService: AseguradoraService,private alertService:AlertService){
   this.cols=[
     { field: 'id', header: 'numero' },
     { field: 'nombre', header: 'nombre' }
@@ -94,12 +96,33 @@ ngOnInit():void{
 
         this.aseguradoraService.guardarAseguradora(this.registrarAseguradoraForm,this.estado).subscribe({
             next: userLog => {
+              if(userLog!=null){
                 console.log("*** Aseguradora guardada: ");
                 this.displayDialog = false;
                 this.estadosAseguradora=[];
+                this.msgs = [];
+                this.msgs.push({severity:'success', summary:'Aseguradora creada', detail:''});
+                this.alertService.success("Se ha creado la nueva aseguradora");
+                setTimeout(() => {}, 3000);
                 this.ngOnInit();
+              }else{
+                this.displayDialog = false;
+                this.estadosAseguradora=[];
+                this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                this.alertService.error("No se ha creado la aseguradora. Intente mas tarde");
+                setTimeout(() => {}, 3000);
+                this.ngOnInit();
+              }
             },
-            error: err=>this.errorMessage=err
+            error: err=>{
+              this.errorMessage=err;
+              this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                this.alertService.error("No se pudo crear la aseguradora. Intente mas tarde.");
+                setTimeout(() => {}, 3000);
+                this.ngOnInit();
+            }
         });
     }
 
@@ -129,12 +152,36 @@ ngOnInit():void{
           }
         }
         this.aseguradoraService.actualizarEstado(this.updateAsegForm,this.estado).subscribe({
-            next: tallerLog => {
+            next: asegLog => {
+              if(asegLog != null){
                 console.log("*** Aseguradora actualizada: ");
                 this.dialogEditAseg=false;
+                this.estadosAseguradora=[];
+                this.msgs = [];
+                this.msgs.push({severity:'success', summary:'Aseguradora actualizada', detail:''});
+                this.alertService.success("Se ha actualizado la aseguradora");
+    
+                setTimeout(() => {}, 3000);
+    
                 this.ngOnInit();
+              }else{
+                this.dialogEditAseg=false;
+                this.estadosAseguradora=[];
+                this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                this.alertService.error("No se pudo actualizar el estado de la asrguradora. Actualice el estado nuevamente.");
+                setTimeout(() => {}, 3000);
+                this.ngOnInit();
+              }
             },
-            error: err=>this.errorMessage=err
+            error: err=>{
+              this.errorMessage=err;
+              this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                this.alertService.error("No se pudo actualizar la aseguradora. Intente mas tarde.");
+                setTimeout(() => {}, 3000);
+                this.ngOnInit();
+            }
         });
       }
 

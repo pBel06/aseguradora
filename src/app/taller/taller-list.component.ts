@@ -1,29 +1,16 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
-//import {ProductService} from './user-list.services';
+import {SelectItem, Message} from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-//import { IUserVista } from '../_model/userVista.model';
-//import { LoginService } from '../login/login.service';
 import { ITaller } from '../_model/taller.model';
 import { TallerService } from './taller.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   templateUrl:'./taller-list.component.html'
-  //styleUrls:['./product-list.component.css']
 })
 export class TallerListComponent implements OnInit{
-
- /* title:string='Lista de productos';
-  imageWidth:number=50;
-  imageMargin:number=2;
-  showImage:boolean=true;
-  filteredProducts:IProduct[] = [];
-  products: IProduct[] = [];
-  errorMessage:string;
-  usuario:IUser; */
-
+  msgs: Message[] = [];
   talleres: ITaller[]=[];
-  //talleresView: ITaller[]=[];
   _tallerSelected: ITaller[];
   _estadoTaller: string;
   estadosTaller: SelectItem[];
@@ -42,13 +29,11 @@ export class TallerListComponent implements OnInit{
   verTallerForm: FormGroup;
   updateTallerForm: FormGroup;
 
-constructor(private tallerService:TallerService){
+constructor(private tallerService:TallerService,private alertService:AlertService){
   this.cols=[
     { field: 'id', header: 'numero' },
     { field: 'nombre', header: 'nombre' }
   ];
-
- 
 
   this.registrarTallerForm = new FormGroup({
     nombre: new FormControl('',Validators.required),
@@ -76,12 +61,6 @@ constructor(private tallerService:TallerService){
           this.talleres=talleres
           console.log("Lista de talleres registrados...");
           console.log(JSON.stringify(this.talleres));
-          /*for(let key in this.talleres){
-            if(this.talleres.hasOwnProperty(key)){
-                this.talleresView[key]={id:this.talleres[key].id,nombre:this.talleres[key].nombre};
-            }
-          }          
-          console.log("Taller view: " + JSON.stringify(this.talleresView));*/
         },
         error: err=>this.errorMessage=err
       });
@@ -95,14 +74,12 @@ constructor(private tallerService:TallerService){
       {label:'Activo', value:"Activo"},
       {label:'Inactivo', value:"Inactivo"}
     ];
-
     this.registrarTallerForm.controls['nombre'].setValue("");
     this._estadoTaller = "";
   }
 
   guardarTaller(){
     console.log("Cargando formulario para crear nuevo taller ... ");
-    
     if(this._estadoTaller == "Activo"){
       this.estado=true;
     }
@@ -111,13 +88,39 @@ constructor(private tallerService:TallerService){
     }
 
     this.tallerService.guardarTaller(this.registrarTallerForm,this.estado).subscribe({
-        next: userLog => {
-            console.log("*** Taller guardado: ");
-            this.displayDialog = false;
-            this.estadosTaller=[];
-            this.ngOnInit();
+        next: tallerLg => {
+            if(tallerLg != null){
+              console.log("*** Taller guardado: ");
+              this.displayDialog = false;
+              this.estadosTaller=[];
+              this.msgs = [];
+              this.msgs.push({severity:'success', summary:'Taller creado', detail:''});
+              this.alertService.success("Se ha creado el nuevo taller");
+  
+              setTimeout(() => {}, 3000);
+  
+              this.ngOnInit();
+            }else{
+              this.displayDialog = false;
+              this.estadosTaller=[];
+              this.msgs = [];
+              this.msgs.push({severity:'danger', summary:'Error', detail:''});
+              this.alertService.error("No se ha creado el taller. Intente mas tarde");
+  
+              setTimeout(() => {}, 3000);
+  
+              this.ngOnInit();
+            }
+            
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo crear el taller. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 
@@ -146,11 +149,39 @@ constructor(private tallerService:TallerService){
       }
     this.tallerService.actualizarEstado(this.updateTallerForm,this.estado).subscribe({
         next: tallerLog => {
+          if(tallerLog!=null){
             console.log("*** Taller actualizado: ");
             this.dialogEditTlr=false;
+            this.estadosTaller=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Taller actualizado', detail:''});
+            this.alertService.success("Se ha actualizado el taller");
+
+            setTimeout(() => {}, 3000);
+
             this.ngOnInit();
+          }else{
+            this.dialogEditTlr = false;
+            this.estadosTaller=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar el estado del taller. Actualice el estado nuevamente.");
+
+            setTimeout(() => {}, 3000);
+
+            this.ngOnInit();
+
+          }
+            
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar el taller. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 }

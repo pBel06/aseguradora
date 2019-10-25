@@ -1,5 +1,5 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {SelectItem, Message} from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../login/login.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -8,12 +8,14 @@ import { IModeloVista } from '../_model/modeloVista.model';
 import { MarcaService } from '../marca/marca.service';
 import { IMarca } from '../_model/marca.model';
 import { ModeloService } from './modelo.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   templateUrl:'./modelo-list.component.html'
   //styleUrls:['./product-list.component.css']
 })
 export class ModeloListComponent implements OnInit{
+  msgs: Message[] = [];
     modelos: IModelo[]=[];
     modelosView: IModeloVista[]=[];
     _modeloSelected: IModeloVista[];
@@ -56,7 +58,7 @@ set estadoModelo(value:string){
     this._estadoModelo = value;
 }
 
-  constructor(private marcaService:MarcaService,private modeloService: ModeloService){
+  constructor(private marcaService:MarcaService,private modeloService: ModeloService,private alertService:AlertService){
 
     this.cols=[
       { field: 'nombre', header: 'nombre' },
@@ -88,7 +90,7 @@ set estadoModelo(value:string){
   ngOnInit():void{
       console.log("Cargando ventana principal de modelos...");
       this.marcasSource = [];
-      
+      this.marcasModelo = [];
       this._estadoModelo="";
       this._marcaSeleccionada="";
   
@@ -161,12 +163,33 @@ set estadoModelo(value:string){
     }
     this.modeloService.guardarModelo(this.registrarModeloForm,this._marcaSeleccionada,this.estado).subscribe({
         next: modeloLog => {
+          if(modeloLog != null){
             console.log("*** Modelo guardado: ");
             this.displayDialog = false;
             this.estadosModelo=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Modelo creado', detail:''});
+            this.alertService.success("Se ha creado el nuevo modelo");
+            setTimeout(() => {}, 3000);
             this.ngOnInit();
+          }else{
+            this.displayDialog = false;
+            this.estadosModelo=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se ha creado el modelo. Intente mas tarde");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo crear el modelo. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 
@@ -186,9 +209,10 @@ set estadoModelo(value:string){
 
   actualizarModelo(){
     console.log("Actualizando el modelo ... ");
-    if ( this._marcaSeleccionada != "" && this._marcaSeleccionada != ""){
+    if ( this._marcaSeleccionada != "" && this._estadoModelo != ""){
       this.modeloService.actualizarModelo(this.updateModeloForm,this._marcaSeleccionada).subscribe({
           next: modeloLog => {
+            if(modeloLog != null){
               console.log("*** Se actualizo la marca y estado: ESTADO" + this._estadoModelo);
               if(this._estadoModelo=="Activo"){
                 this.estado=true;
@@ -198,21 +222,93 @@ set estadoModelo(value:string){
               if(this._estadoModelo != ""){
                 this.modeloService.actualizarEstado(this.updateModeloForm.controls['nombre'].value,this.estado).subscribe({
                     next: userAc => {
-                      this.ngOnInit();                     
+                      if(userAc != null){
+                        this.dialogEditMdl = false;
+                        this.estadosModelo=[];
+                        this._modeloSelected=[];
+                        this._marcaSeleccionada = "";
+                        this.msgs = [];
+                        this.msgs.push({severity:'success', summary:'Modelo actualizado', detail:''});
+                        this.alertService.success("Se ha actualizado el modelo");
+                        setTimeout(() => {}, 3000);
+                        this.ngOnInit();
+                      }else{
+                        this.dialogEditMdl = false;
+                        this.estadosModelo=[];
+                        this._modeloSelected=[];
+                        this._marcaSeleccionada = "";
+                        this.msgs = [];
+                        this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                        this.alertService.error("No se pudo actualizar el estado del modelo. Actualice el estado nuevamente.");
+                        setTimeout(() => {}, 3000);            
+                        this.ngOnInit();
+                      }                     
                     },
-                    error: err=>this.errorMessage=err
+                    error: err=>{
+                      this.errorMessage=err;
+                      this.msgs = [];
+                        this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                        this.alertService.error("No se pudo actualizar el modelo. Intente mas tarde.");
+                        setTimeout(() => {}, 3000);
+                        this.ngOnInit();
+                    }
                 });
               }
+            }else{
+              this.dialogEditMdl = false;
+              this.estadosModelo=[];
+              this._modeloSelected=[];
+              this._marcaSeleccionada = "";
+              this.msgs = [];
+              this.msgs.push({severity:'danger', summary:'Error', detail:''});
+              this.alertService.error("No se pudo actualizar el modelo. Intente mas tarde");
+              setTimeout(() => {}, 3000);
+              this.ngOnInit();
+            }
           },
-          error: err=>this.errorMessage=err
+          error: err=>{
+            this.errorMessage=err;
+            this.msgs = [];
+              this.msgs.push({severity:'danger', summary:'Error', detail:''});
+              this.alertService.error("No se pudo actualizar el modelo. Intente mas tarde..");
+              setTimeout(() => {}, 3000);
+              this.ngOnInit();
+          }
       });
     }else if(this._marcaSeleccionada != "" && this._estadoModelo == ""){
       this.modeloService.actualizarModelo(this.updateModeloForm,this._marcaSeleccionada).subscribe({
         next: userLog => {
-          console.log("*** Se actualizo la marca: ");
-          this.ngOnInit();
+          if(userLog != null){
+            console.log("*** Se actualizo la marca: ");
+            this.dialogEditMdl = false;
+            this.estadosModelo=[];
+            this._modeloSelected=[];
+            this._marcaSeleccionada = "";
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Modelo actualizado', detail:''});
+            this.alertService.success("Se ha actualizado la marca del modelo");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }else{
+            this.dialogEditMdl = false;
+            this.estadosModelo=[];
+            this._modeloSelected=[];
+            this._marcaSeleccionada = "";
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar la marca del modelo. Intente mas tarde");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar la marca del modelo. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }else if(this._marcaSeleccionada == "" && this._estadoModelo != ""){
     if(this._estadoModelo=="Activo"){
@@ -222,10 +318,37 @@ set estadoModelo(value:string){
     }
     this.modeloService.actualizarEstado(this.updateModeloForm.controls['nombre'].value,this.estado).subscribe({
             next: userLog => {
+              if(userLog != null){
                 console.log("*** Se actualizo estado: ");
+                this.dialogEditMdl = false;
+                this.estadosModelo=[];
+                this._modeloSelected=[];
+                this._marcaSeleccionada = "";
+                this.msgs = [];
+                this.msgs.push({severity:'success', summary:'Modelo actualizado', detail:''});
+                this.alertService.success("Se ha actualizado el estado del modelo");
+                setTimeout(() => {}, 3000);
                 this.ngOnInit();
+              }else{
+                this.dialogEditMdl = false;
+                this.estadosModelo=[];
+                this._modeloSelected=[];
+                this._marcaSeleccionada = "";
+                this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                this.alertService.error("No se pudo actualizar el estado del modelo. Intente mas tarde");
+                setTimeout(() => {}, 3000);
+                this.ngOnInit();
+              }
             },
-            error: err=>this.errorMessage=err
+            error: err=>{
+              this.errorMessage=err;
+              this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                this.alertService.error("No se pudo actualizar el estado del modelo. Intente mas tarde.");
+                setTimeout(() => {}, 3000);
+                this.ngOnInit();
+            }
         });
     }
     

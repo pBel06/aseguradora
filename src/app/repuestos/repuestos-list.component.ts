@@ -1,14 +1,16 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {SelectItem, Message} from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IRepuesto } from '../_model/repuesto.model';
 import { RepuestoService } from './repuestos.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   templateUrl:'./repuestos-list.component.html'
   //styleUrls:['./product-list.component.css']
 })
 export class RepuestoListComponent implements OnInit{
+  msgs: Message[] = [];
   repuestos: IRepuesto[]=[];
   _repuestoSelected: IRepuesto[];
   _estadoRepuesto: string;
@@ -26,7 +28,7 @@ export class RepuestoListComponent implements OnInit{
   verRepForm: FormGroup;
   updateRepForm: FormGroup;
 
-constructor(private repuestoService:RepuestoService){
+constructor(private repuestoService:RepuestoService,private alertService:AlertService){
   this.cols=[
     { field: 'id', header: 'numero' },
     { field: 'nombre', header: 'nombre' },
@@ -93,12 +95,36 @@ constructor(private repuestoService:RepuestoService){
 
     this.repuestoService.guardarRepuesto(this.registrarRepForm,this.estado).subscribe({
         next: repLog => {
+          if(repLog != null){
             console.log("*** Repuesto guardado: ");
             this.displayDialog = false;
             this.estadosRepuesto=[];
+            this._repuestoSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Repuesto creado', detail:''});
+            this.alertService.success("Se ha creado el repuesto");
+            setTimeout(() => {}, 3000);
             this.ngOnInit();
+          }else{
+            this.displayDialog = false;
+            this.estadosRepuesto=[];
+            this._repuestoSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se ha creado el repuesto. Intente mas tarde");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }
+            
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo crear el repuesto. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 
@@ -121,29 +147,74 @@ constructor(private repuestoService:RepuestoService){
     console.log("Actualizando un repuesto ... ");
     this.repuestoService.actualizarRepuesto(this.updateRepForm).subscribe({
       next: proveeLog => {
-          console.log("Hemos actualizado al repuesto " + JSON.stringify(proveeLog));
-          if (this._estadoRepuesto != ""){
-            if(this._estadoRepuesto=="Activo"){
-              this.estado=true;
-            }else{
-              this.estado=false;
-            }
-          this.repuestoService.actualizarEstado(this.updateRepForm,this.estado).subscribe({
-              next: repuesto => {
-                  console.log("*** Repuesto actualizado: ");
-                  
-                  
-              },
-              error: err=>this.errorMessage=err
-          });
+        if(proveeLog != null){
+            console.log("Hemos actualizado al repuesto " + JSON.stringify(proveeLog));
+            if (this._estadoRepuesto != ""){
+              if(this._estadoRepuesto=="Activo"){
+                this.estado=true;
+              }else{
+                this.estado=false;
+              }
+            this.repuestoService.actualizarEstado(this.updateRepForm,this.estado).subscribe({
+                next: repuesto => {
+                  if(repuesto != null){
+                    console.log("*** Repuesto actualizado: ");
+                    this.dialogEditRep=false;
+                    this._repuestoSelected = [];
+                    this.msgs = [];
+                    this.msgs.push({severity:'success', summary:'Repuesto actualizado', detail:''});
+                    this.alertService.success("Se ha actualizado el repuesto");
+                    setTimeout(() => {}, 3000);
+                    this.ngOnInit();
+                  }else{
+                    this.dialogEditRep=false;
+                    this._repuestoSelected = [];
+                    this.msgs = [];
+                    this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                    this.alertService.error("No se pudo actualizar el estado del repuesto. Actualice el estado nuevamente.");
+                    setTimeout(() => {}, 3000);
+                    this.ngOnInit();
+                  }
+                },
+                error: err=>{
+                  this.errorMessage=err;
+                  this.msgs = [];
+                    this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                    this.alertService.error("No se pudo actualizar el repuesto. Intente mas tarde.");
+                    setTimeout(() => {}, 3000);
+                    this.ngOnInit();
+                }
+            });   
+        }else{
+          console.log("*** Proveedor actualizado: ");
+          this.dialogEditRep=false;
+          this._repuestoSelected = [];
+          this.msgs = [];
+          this.msgs.push({severity:'success', summary:'Repuesto actualizado', detail:''});
+          this.alertService.success("Se ha actualizado el repuesto");
+          setTimeout(() => {}, 3000);
+          this.ngOnInit();
         }
+      }else{
         this.dialogEditRep=false;
         this._repuestoSelected = [];
+        this.msgs = [];
+        this.msgs.push({severity:'danger', summary:'Error', detail:''});
+        this.alertService.error("No se pudo actualizar el estado del repuesto. Actualice el estado nuevamente.");
+        setTimeout(() => {}, 3000);
         this.ngOnInit();
+      }
       },
-      error: err=>this.errorMessage=err
+      error: err=>{
+        this.errorMessage=err;
+        this.msgs = [];
+          this.msgs.push({severity:'danger', summary:'Error', detail:''});
+          this.alertService.error("No se pudo actualizar el repuesto. Intente mas tarde.");
+          setTimeout(() => {}, 3000);
+          this.ngOnInit();
+      }
     });    
-}
+  }
  
   verRepuesto(){
     console.log("visualizaremos el repuesto . .. ");

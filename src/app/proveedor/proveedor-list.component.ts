@@ -1,14 +1,16 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {SelectItem, Message} from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IProveedor } from '../_model/proveedor.model';
 import { ProveedorService } from './proveedor.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   templateUrl:'./proveedor-list.component.html'
   //styleUrls:['./product-list.component.css']
 })
 export class ProveedorListComponent implements OnInit{
+  msgs: Message[] = [];
   proveedores: IProveedor[]=[];
   _proveedorSelected: IProveedor[];
   _estadoProveedor: string;
@@ -26,7 +28,7 @@ export class ProveedorListComponent implements OnInit{
   verProvForm: FormGroup;
   updateProvForm: FormGroup;
 
-constructor(private proveedorService:ProveedorService){
+constructor(private proveedorService:ProveedorService,private alertService:AlertService){
   this.cols=[
     { field: 'id', header: 'numero' },
     { field: 'nombre', header: 'nombre' },
@@ -93,12 +95,35 @@ constructor(private proveedorService:ProveedorService){
 
     this.proveedorService.guardarProveedor(this.registrarProvForm,this.estado).subscribe({
         next: userLog => {
+          if(userLog != null){
             console.log("*** Proveedor guardado: ");
             this.displayDialog = false;
             this.estadosProveedor=[];
+            this._proveedorSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Proveedor creado', detail:''});
+            this.alertService.success("Se ha creado la proveedor");
+            setTimeout(() => {}, 3000);
             this.ngOnInit();
+          }else{
+            this.displayDialog = false;
+            this.estadosProveedor=[];
+            this._proveedorSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se ha creado el proveedor. Intente mas tarde");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }  
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo crear el proveedor. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 
@@ -122,6 +147,7 @@ constructor(private proveedorService:ProveedorService){
     console.log("Actualizando un proveedor ... ");
     this.proveedorService.actualizarProv(this.updateProvForm).subscribe({
       next: proveeLog => {
+        if(proveeLog != null){
           console.log("Hemos actualizado al proveedor " + JSON.stringify(proveeLog));
           if (this._estadoProveedor != ""){
             if(this._estadoProveedor=="Activo"){
@@ -129,20 +155,64 @@ constructor(private proveedorService:ProveedorService){
             }else{
               this.estado=false;
             }
-          this.proveedorService.actualizarEstado(this.updateProvForm,this.estado).subscribe({
+            this.proveedorService.actualizarEstado(this.updateProvForm,this.estado).subscribe({
               next: proveedor => {
+                if(proveedor != null){
                   console.log("*** Proveedor actualizado: ");
-                 
-                  //this.ngOnInit();
+                  this.dialogEditProv=false;
+                  this._proveedorSelected = [];
+                  this.msgs = [];
+                  this.msgs.push({severity:'success', summary:'Proveedor actualizado', detail:''});
+                  this.alertService.success("Se ha actualizado el proveedor");
+                  setTimeout(() => {}, 3000);
+                  this.ngOnInit();
+                }else{
+                  this.dialogEditProv=false;
+                  this._proveedorSelected = [];
+                  this.msgs = [];
+                  this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                  this.alertService.error("No se pudo actualizar el estado del proveedor. Actualice el estado nuevamente.");
+                  setTimeout(() => {}, 3000);
+                  this.ngOnInit();
+                }
               },
-              error: err=>this.errorMessage=err
+              error: err=>{
+                this.errorMessage=err;
+                this.msgs = [];
+                  this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                  this.alertService.error("No se pudo actualizar el proveedor. Intente mas tarde.");
+                  setTimeout(() => {}, 3000);
+                  this.ngOnInit();
+              }
           });
+          }else{
+            console.log("*** Proveedor actualizado: ");
+                  this.dialogEditProv=false;
+                  this._proveedorSelected = [];
+                  this.msgs = [];
+                  this.msgs.push({severity:'success', summary:'Proveedor actualizado', detail:''});
+                  this.alertService.success("Se ha actualizado el proveedor");
+                  setTimeout(() => {}, 3000);
+                  this.ngOnInit();
+          }
+        }else{
+          this.dialogEditProv=false;
+                  this._proveedorSelected = [];
+                  this.msgs = [];
+                  this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                  this.alertService.error("No se pudo actualizar el estado del proveedor. Actualice el estado nuevamente.");
+                  setTimeout(() => {}, 3000);
+                  this.ngOnInit();
         }
-        this.dialogEditProv=false;
-        this._proveedorSelected = [];
-        this.ngOnInit();
       },
-      error: err=>this.errorMessage=err
+      error: err=>{
+        this.errorMessage=err;
+        this.msgs = [];
+          this.msgs.push({severity:'danger', summary:'Error', detail:''});
+          this.alertService.error("No se pudo actualizar el proveedor. Intente mas tarde.");
+          setTimeout(() => {}, 3000);
+          this.ngOnInit();
+      }
     });    
 }
  

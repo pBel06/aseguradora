@@ -32,6 +32,7 @@
       </span> -->
   <div class="row">
     <div class="col s12">
+        <p-growl [value]="msgs" sticky="sticky"></p-growl>
         <p-table [columns]="cols" [value]="talleres" [paginator]="true" [rows]="3"   [responsive]="true" [(selection)]="_tallerSelected" dataKey="nombre">
             <ng-template pTemplate="header" let-columns>
                 <tr>

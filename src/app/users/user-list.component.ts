@@ -1,5 +1,5 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {SelectItem, Message} from 'primeng/api';
 import { IUser } from '../_model/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IUserVista } from '../_model/userVista.model';
@@ -7,6 +7,8 @@ import { LoginService } from '../login/login.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { UserService } from './user-list.services';
 import { ITipoUsuario } from '../_model/tipoUsuario.model';
+import { AlertService } from '../alert/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   //selector:'app-root',
@@ -23,6 +25,7 @@ export class UserListComponent implements OnInit{
   products: IProduct[] = [];
   errorMessage:string;
   usuario:IUser; */
+  msgs: Message[] = [];
   first: number = 0;
   usuarios: IUser[]=[];
   usuariosView: IUserVista[]=[];
@@ -82,7 +85,7 @@ set estadoUsuario(value:string){
       this.filteredUsers=this.listFilter?this.performFilter(this.listFilter):this.usuarios;
   }*/
 
-  constructor(private userService:UserService, private loginService:LoginService){
+  constructor(private userService:UserService, private loginService:LoginService, private alertService:AlertService){
 
    
 
@@ -269,12 +272,37 @@ set estadoUsuario(value:string){
     }
     this.userService.guardarUsuario(this.registrarUserForm,this._tipoSeleccionado,this.estado).subscribe({
         next: userLog => {
+          if(userLog != null){
             console.log("*** Usuario guardado: ");
             this.displayDialog = false;
             this.estadosUsuario=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Usuario creado', detail:''});
+            this.alertService.success("Se ha creado el nuevo usuario");
+
+            setTimeout(() => {}, 3000);
+
             this.ngOnInit();
+          }else{
+            this.displayDialog = false;
+            this.estadosUsuario=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se ha creado el usuario. Intente mas tarde");
+
+            setTimeout(() => {}, 3000);
+
+            this.ngOnInit();
+          }
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo crear el usuario. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 
@@ -325,6 +353,7 @@ set estadoUsuario(value:string){
     if ( this._tipoSeleccionado != "" && this._estadoUsuario != ""){
       this.userService.actualizarUsuario(this.updateUserForm,this._tipoSeleccionado).subscribe({
           next: userLog => {
+            if(userLog != null){
               console.log("*** Se actualizo tipo y estado: ESTADO" + this._estadoUsuario);
               if(this._estadoUsuario=="Activo"){
                 this.estado=true;
@@ -334,26 +363,91 @@ set estadoUsuario(value:string){
               if(this._estadoUsuario != ""){
                 this.userService.actualizarEstado(this.updateUserForm.controls['usuario'].value,this.estado).subscribe({
                     next: userAc => {
-                      this.ngOnInit();
-                      
-                     // this._usuarioSelected=[];
-                      //this._estadoUsuarioEdit=null;
-                     // this.estadoCopy=null;
-                      
+                        if(userAc != null){
+                          this.dialogEditUsr = false;
+                          this.estadosUsuario=[];
+                          this.msgs = [];
+                          this.msgs.push({severity:'success', summary:'Usuario actualizado', detail:''});
+                          this.alertService.success("Se ha actualizado el usuario");
+              
+                          setTimeout(() => {}, 3000);
+              
+                          this.ngOnInit();
+                        }else{
+                          this.dialogEditUsr = false;
+                          this.estadosUsuario=[];
+                          this.msgs = [];
+                          this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                          this.alertService.error("No se pudo actualizar el estado del usuario. Actualice el estado nuevamente.");
+              
+                          setTimeout(() => {}, 3000);
+              
+                          this.ngOnInit();
+                        }                      
                     },
-                    error: err=>this.errorMessage=err
+                    error: err=>{
+                      this.errorMessage=err;
+                      this.msgs = [];
+                        this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                        this.alertService.error("No se pudo actualizar el usuario. Intente mas tarde.");
+                        setTimeout(() => {}, 3000);
+                        this.ngOnInit();
+                    }
                 });
               }
+            }else{
+              this.dialogEditUsr = false;
+              this.estadosUsuario=[];
+              this.msgs = [];
+              this.msgs.push({severity:'danger', summary:'Error', detail:''});
+              this.alertService.error("No se pudo actualizar el usuario. Intente mas tarde");
+  
+              setTimeout(() => {}, 3000);
+  
+              this.ngOnInit();
+            }
+              
           },
-          error: err=>this.errorMessage=err
+          error: err=>{
+            this.errorMessage=err;
+            this.msgs = [];
+              this.msgs.push({severity:'danger', summary:'Error', detail:''});
+              this.alertService.error("No se pudo actualizar el usuario. Intente mas tarde..");
+              setTimeout(() => {}, 3000);
+              this.ngOnInit();
+          }
       });
     }else if(this._tipoSeleccionado != "" && this._estadoUsuario == ""){
       this.userService.actualizarUsuario(this.updateUserForm,this._tipoSeleccionado).subscribe({
         next: userLog => {
-          console.log("*** Se actualizo tipo: ");
-          this.ngOnInit();
+          if(userLog != null){
+            console.log("*** Se actualizo tipo: ");
+            this.dialogEditUsr = false;
+            this.estadosUsuario=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Usuario actualizado', detail:''});
+            this.alertService.success("Se ha actualizado el tipo de usuario");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }else{
+            this.dialogEditUsr = false;
+            this.estadosUsuario=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar el tipo del usuario. Intente mas tarde");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }
+          
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar el tipo del usuario. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }else if(this._tipoSeleccionado == "" && this._estadoUsuario != ""){
     if(this._estadoUsuario=="Activo"){
@@ -363,10 +457,33 @@ set estadoUsuario(value:string){
     }
     this.userService.actualizarEstado(this.updateUserForm.controls['usuario'].value,this.estado).subscribe({
       next: userLog => {
-        console.log("*** Se actualizo estado: ");
-        this.ngOnInit();
+        if(userLog != null){
+          console.log("*** Se actualizo estado: ");
+          this.dialogEditUsr = false;
+          this.estadosUsuario=[];
+          this.msgs = [];
+          this.msgs.push({severity:'success', summary:'Usuario actualizado', detail:''});
+          this.alertService.success("Se ha actualizado el estado del usuario");
+          setTimeout(() => {}, 3000);
+          this.ngOnInit();
+        }else{
+          this.dialogEditUsr = false;
+          this.estadosUsuario=[];
+          this.msgs = [];
+          this.msgs.push({severity:'danger', summary:'Error', detail:''});
+          this.alertService.error("No se pudo actualizar el estado del usuario. Intente mas tarde");
+          setTimeout(() => {}, 3000);
+          this.ngOnInit();
+        }
       },
-      error: err=>this.errorMessage=err
+      error: err=>{
+        this.errorMessage=err;
+        this.msgs = [];
+          this.msgs.push({severity:'danger', summary:'Error', detail:''});
+          this.alertService.error("No se pudo actualizar el estado del usuario. Intente mas tarde.");
+          setTimeout(() => {}, 3000);
+          this.ngOnInit();
+      }
   });
   }
   //this._estadoUsuario = "";

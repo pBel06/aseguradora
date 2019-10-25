@@ -1,21 +1,20 @@
 import {Component,OnInit} from '@angular/core';
-import {SelectItem} from 'primeng/api';
+import {SelectItem, Message} from 'primeng/api';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IMarca } from '../_model/marca.model';
 import { MarcaService } from './marca.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
   templateUrl:'./marca-list.component.html'
-  //styleUrls:['./product-list.component.css']
 })
 export class MarcaListComponent implements OnInit{
+  msgs: Message[] = [];
   marcas: IMarca[]=[];
    _marcaSelected: IMarca[];
   _estadoMarca: string;
   estadosMarca: SelectItem[];
   estado:boolean;
-
-  //filteredTalleres:ITaller[] = [];
   errorMessage:string;
   displayDialog:boolean;
   dialogVerMarca: boolean;
@@ -27,13 +26,11 @@ export class MarcaListComponent implements OnInit{
   verMarcaForm: FormGroup;
   updateMarcaForm: FormGroup;
 
-constructor(private marcaService:MarcaService){
+constructor(private marcaService:MarcaService,private alertService:AlertService){
   this.cols=[
     { field: 'id', header: 'numero' },
     { field: 'nombre', header: 'nombre' }
   ];
-
- 
 
   this.registrarMarcaForm = new FormGroup({
     nombre: new FormControl('',Validators.required),
@@ -90,14 +87,36 @@ constructor(private marcaService:MarcaService){
     }
 
     this.marcaService.guardarMarca(this.registrarMarcaForm,this.estado).subscribe({
-        next: userLog => {
+        next: marcaLog => {
+          if(marcaLog!=null){
             console.log("*** Marca guardada: ");
             this.displayDialog = false;
             this.estadosMarca=[];
             this._marcaSelected=[];
+            this.msgs = [];
+              this.msgs.push({severity:'success', summary:'Marca creada', detail:''});
+              this.alertService.success("Se ha creado la nueva marca");
+              setTimeout(() => {}, 3000);
+              this.ngOnInit();
+          }else{
+            this.displayDialog = false;
+            this.estadosMarca=[];
+            this._marcaSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se ha creado la marca. Intente mas tarde");
+            setTimeout(() => {}, 3000);
             this.ngOnInit();
+          }
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo crear la marca. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 
@@ -125,13 +144,34 @@ constructor(private marcaService:MarcaService){
         this.estado=false;
       }
     this.marcaService.actualizarEstado(this.updateMarcaForm,this.estado).subscribe({
-        next: tallerLog => {
-            console.log("*** Marca actualizado: ");
+        next: marcaLog => {
+          if(marcaLog != null){
+            console.log("*** Marca actualizada: ");
             this.dialogEditMrc=false;
             this._marcaSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Marca actualizada', detail:''});
+            this.alertService.success("Se ha actualizado la marca");
+            setTimeout(() => {}, 3000);
             this.ngOnInit();
+          }else{
+            this.dialogEditMrc=false;
+            this._marcaSelected=[];
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar el estado de la marca. Actualice el estado nuevamente.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }
         },
-        error: err=>this.errorMessage=err
+        error: err=>{
+          this.errorMessage=err;
+          this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:''});
+            this.alertService.error("No se pudo actualizar la marca. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+        }
     });
   }
 }
