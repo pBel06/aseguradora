@@ -35,12 +35,13 @@ import { MarcaListComponent } from './marca/marca-list.component';
 import { ProveedorListComponent } from './proveedor/proveedor-list.component';
 import { ModeloListComponent } from './modelo/modelo-list.component';
 import { AlertComponent } from './alert/alert.component';
+import { RepuestoListComponent } from './repuestos/repuestos-list.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,ProductDetailComponent,
-    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent
+    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,
@@ -55,6 +56,7 @@ import { AlertComponent } from './alert/alert.component';
       {path: 'marcas',component: MarcaListComponent},
       {path: 'modelos',component: ModeloListComponent},
       {path: 'proveedores',component: ProveedorListComponent},
+      {path: 'repuestos',component: RepuestoListComponent},
       {path: 'welcome',component: WelcomeComponent}
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},
       //{path: '**',component: WelcomeComponent,pathMatch: 'full'} /* pagina 404*/

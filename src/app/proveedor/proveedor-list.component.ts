@@ -120,25 +120,33 @@ constructor(private proveedorService:ProveedorService){
 
   actualizarProveedor(){
     console.log("Actualizando un proveedor ... ");
-    if (this._estadoProveedor != ""){
-      if(this._estadoProveedor=="Activo"){
-        this.estado=true;
-      }else{
-        this.estado=false;
-      }
-    this.proveedorService.actualizarEstado(this.updateProvForm,this.estado).subscribe({
-        next: proveedor => {
-            console.log("*** Proveedor actualizado: ");
-            this.dialogEditProv=false;
-            this._proveedorSelected = [];
-            this.ngOnInit();
-        },
-        error: err=>this.errorMessage=err
-    });
-  }
+    this.proveedorService.actualizarProv(this.updateProvForm).subscribe({
+      next: proveeLog => {
+          console.log("Hemos actualizado al proveedor " + JSON.stringify(proveeLog));
+          if (this._estadoProveedor != ""){
+            if(this._estadoProveedor=="Activo"){
+              this.estado=true;
+            }else{
+              this.estado=false;
+            }
+          this.proveedorService.actualizarEstado(this.updateProvForm,this.estado).subscribe({
+              next: proveedor => {
+                  console.log("*** Proveedor actualizado: ");
+                 
+                  //this.ngOnInit();
+              },
+              error: err=>this.errorMessage=err
+          });
+        }
+        this.dialogEditProv=false;
+        this._proveedorSelected = [];
+        this.ngOnInit();
+      },
+      error: err=>this.errorMessage=err
+    });    
 }
  
-  verTaller(){
+  verProveedor(){
     console.log("visualizaremos el proveedor . .. ");
     this.dialogVerProv=true;
     this.verProvForm.controls['nombre'].setValue(this._proveedorSelected[0].nombre);

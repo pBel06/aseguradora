@@ -64,6 +64,10 @@ ngOnInit(){
     this.router.navigate(['/modelos']);
   }
 
+  principalRepuesto(){
+    this.router.navigate(['/repuestos']);
+  }
+
   logOut(){
     this.authService.logout();
     this.router.navigate(['/login']);

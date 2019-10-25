@@ -51,7 +51,7 @@
           </tr>
           </tbody>
       </table> -->
-      <p-table [columns]="cols" [value]="usuariosView" [paginator]="true" [rows]="10"  totalRecords="100" [responsive]="true" [(selection)]="_usuarioSelected">
+      <p-table [columns]="cols" [value]="usuariosView" [paginator]="true" [rows]="10" [responsive]="true" totalRecords="100"  [(selection)]="_usuarioSelected" dataKey="nombre">
           <ng-template pTemplate="header" let-columns>
               <tr>
                  <th style="width: 3em">

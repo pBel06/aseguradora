@@ -3,91 +3,91 @@ import {HttpClientModule, HttpErrorResponse, HttpClient, HttpHeaders} from '@ang
 import {Observable, throwError } from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
-import { IProveedor } from '../_model/proveedor.model';
+import { IRepuesto } from '../_model/repuesto.model';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ProveedorService{
-  private provUrlBase = 'http://localhost:8014/autolink';
-  nuevoProv: IProveedor[];
-  actualizaProv:IProveedor;
+export class RepuestoService{
+  private repUrlBase = 'http://localhost:8014/autolink';
+  nuevoRep: IRepuesto[];
+  actualizaRep:IRepuesto;
 
   constructor(private http: HttpClient){}
 
-  getProveedores():Observable<IProveedor[]>{
-      console.log("Consultando la lista de proveedores ... ");
+  getRepuestos():Observable<IRepuesto[]>{
+      console.log("Consultando la lista de repuestos ... ");
       const httpOptions = {
          headers: {'Content-Type': 'application/json'},
          params: {}
        };
-       return this.http.get<IProveedor[]>(this.provUrlBase+'/rest/proveedor/all',httpOptions).pipe(
+       return this.http.get<IRepuesto[]>(this.repUrlBase+'/rest/repuesto/all',httpOptions).pipe(
         tap(data => {
-          console.log('Lista de proveedores: ' +JSON.stringify(data));
+          console.log('Lista de repuestos: ' +JSON.stringify(data));
         }),
         catchError(this.handleError)
       );
     }
 
-    guardarProveedor(nuevoProvFrom:FormGroup,_estadoProveedor:boolean):Observable<IProveedor>{
-      console.log("Llamaremos al servicio para guardar un nuevo proveedor .. ");
+    guardarRepuesto(nuevoRepFrom:FormGroup,_estadoRepuesto:boolean):Observable<IRepuesto>{
+      console.log("Llamaremos al servicio para guardar un nuevo repuesto .. ");
       let mydate = new Date();
-      this.nuevoProv=JSON.parse(JSON.stringify({
-        "nombre":nuevoProvFrom.controls['nombre'].value,
-        "direccion":nuevoProvFrom.controls['direccion'].value,
-        "estado": ( _estadoProveedor ? true: false),
+      this.nuevoRep=JSON.parse(JSON.stringify({
+        "nombre":nuevoRepFrom.controls['nombre'].value,
+        "valor":nuevoRepFrom.controls['valor'].value,
+        "estado": ( _estadoRepuesto ? true: false),
         "fechacreacion": mydate
       }));
-      let body = this.nuevoProv;
+      let body = this.nuevoRep;
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json' 
         })
       };
-      console.log("Datos enviados al servicio para almacenar el nuevo taller: " + JSON.stringify(body));
-      return this.http.post<IProveedor>(this.provUrlBase+'/rest/proveedor/save', body, httpOptions).pipe(
-        tap(data => console.log('Proveedor almacenado: ' +JSON.stringify(data))),
+      console.log("Datos enviados al servicio para almacenar el nuevo repuesto: " + JSON.stringify(body));
+      return this.http.post<IRepuesto>(this.repUrlBase+'/rest/repuesto/save', body, httpOptions).pipe(
+        tap(data => console.log('Repuesto almacenado: ' +JSON.stringify(data))),
         catchError(this.handleError)
       );
     }
 
-    actualizarProv(updateProvForm: FormGroup):Observable<IProveedor>{
-      console.log("Llamaeremos al servicio de actualizar proveedor ... ");
-      this.actualizaProv = JSON.parse(JSON.stringify({
-        "nombre": updateProvForm.controls['nombre'].value,
-        "direccion": updateProvForm.controls['direccion'].value
+    actualizarRepuesto(updateRepForm: FormGroup):Observable<IRepuesto>{
+      console.log("Llamaeremos al servicio de actualizar repuesto ... ");
+      this.actualizaRep = JSON.parse(JSON.stringify({
+        "nombre": updateRepForm.controls['nombre'].value,
+        "valor": updateRepForm.controls['valor'].value
       }));
-      let body = this.actualizaProv;
+      let body = this.actualizaRep;
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json' 
         })
       };
       console.log("Datos enviados al servicio para actualizar el proveedor: " + JSON.stringify(body));
-      return this.http.put<IProveedor>(this.provUrlBase+'/rest/proveedor/update', body, httpOptions).pipe(
+      return this.http.put<IRepuesto>(this.repUrlBase+'/rest/repuesto/update', body, httpOptions).pipe(
         tap(data => console.log('Proveedor actualizado: ' +JSON.stringify(data))),
         catchError(this.handleError)
       );
 
     }
 
-    actualizarEstado(updateProvForm: FormGroup,estado:boolean):Observable<IProveedor>{
-      console.log("Llamaremos al servicio para actualizar el estado del proveedor ... ");
-      this.actualizaProv = JSON.parse(JSON.stringify({
+    actualizarEstado(updateRepForm: FormGroup,estado:boolean):Observable<IRepuesto>{
+      console.log("Llamaremos al servicio para actualizar el estado del repuesto ... ");
+      this.actualizaRep = JSON.parse(JSON.stringify({
         //"id": updateTallerForm.controls['idTlr'].value,
-        "nombre": updateProvForm.controls['nombre'].value,
+        "nombre": updateRepForm.controls['nombre'].value,
         //"direccion": updateProvForm.controls['direccion'].value,
         "estado": (estado ? true: false)
       }));
-      let body = this.actualizaProv;
+      let body = this.actualizaRep;
       const httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json' 
         })
       };
       console.log("Datos enviados al servicio para actualizar el estado del proveedor: " + JSON.stringify(body));
-      return this.http.post<IProveedor>(this.provUrlBase+'/rest/proveedor/status', body, httpOptions).pipe(
+      return this.http.post<IRepuesto>(this.repUrlBase+'/rest/repuesto/status', body, httpOptions).pipe(
         tap(data => console.log('Proveedor actualizado: ' +JSON.stringify(data))),
         catchError(this.handleError)
       );

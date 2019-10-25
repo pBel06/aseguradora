@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <div class="col s12">
-        <p-table [columns]="cols" [value]="modelosView" [(selection)]="_modeloSelected" dataKey="nombre">
+        <p-table [columns]="cols" [value]="modelosView" [paginator]="true" [rows]="10" [responsive]="true" totalRecords="100" [(selection)]="_modeloSelected" dataKey="nombre">
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th style="width: 3em">
@@ -108,9 +108,7 @@
         </form> 
     </div>
   </p-dialog>
-  
-  <!-- MODAL PARA ELIMINAR USUARIO -->
-  
+    
   <!-- MODAL PARA VISUALIZAR MODELO -->
   <p-dialog [(visible)]="dialogVerMdl" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [showHeader]="true" showEffect="fade" [modal]="true" [style]="{width: '720px', height: '48px'}">
       <div class="ui-grid ui-grid-responsive ui-fluid">

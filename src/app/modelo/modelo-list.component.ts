@@ -232,7 +232,7 @@ set estadoModelo(value:string){
     this.dialogEditMdl=false;  
   }
   
-  verUsuario(){
+  verModelo(){
     console.log("visualizaremos el modelo . .. ");
     this.dialogVerMdl=true;
     this.verModeloForm.controls['nombre'].setValue(this._modeloSelected[0].nombre);
