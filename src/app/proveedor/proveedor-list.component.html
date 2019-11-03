@@ -52,45 +52,45 @@
             <p-panel [showHeader]="false">
               <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
                     <div class="input-field">
-                        <input type="text" id="name" formControlName="nombre" class="validate"/>
+                        <input type="text" id="name" formControlName="nombre" class="validate" required/>
                         <label for="name">Nombre</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="direccion" formControlName="direccion" class="validate"/>
+                        <input type="text" id="direccion" formControlName="direccion" class="validate" required/>
                         <label for="direccion">Direccion</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate" required/>
                         <label for="razonSocial">Razon Social</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="nit" formControlName="nit" class="validate"/>
+                        <input type="text" id="nit" formControlName="nit" class="validate" required/>
                         <label for="nit">NIT</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate"/>
+                        <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate" required/>
                         <label for="cuentaBanc">Cuenta Bancaria</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                        <input type="text" id="telefono" formControlName="telefono" class="validate" required/>
                         <label for="telefono">Telefono</label>
                     </div>
                     <div class="input-field" style="display:inline-block;padding: 5px;">
                         <label for="estadoUsuario">Estado</label><br/><br/>
-                        <p-dropdown [options]="estadosProveedor" formControlName="estadoProveedor" [(ngModel)]="_estadoProveedor" class="validate"></p-dropdown>
+                        <p-dropdown [options]="estadosProveedor" formControlName="estadoProveedor" [(ngModel)]="_estadoProveedor" class="validate" required></p-dropdown>
                         <p>Estado seleccionado: {{_estadoProveedor ? _estadoProveedor : 'none'}}</p>
                     </div>
                     <div class="input-field" style="display:inline-block;padding: 20px;">
                         <label for="usuario">Usuario</label><br/><br/>
-                        <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                        <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate" required></p-dropdown>
                         <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
                     </div>
                     <div class="input-field" style="display:inline-block;padding: 20px;">
-                        <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                        <input type="text" id="cargo" formControlName="cargo" class="validate" required/>
                         <label for="usuario">cargo</label><br/><br/>
                     </div>
                     <div class="input-field">
-                            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarProveedor()">Guardar
+                            <button [disabled]="!registrarProvForm.valid" class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarProveedor()">Guardar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -111,39 +111,39 @@
                             <input pInputText id="idProv" formControlName="idProv" style="visibility:hidden"/>
                         </div>
                         <div class="input-field">
-                            <input type="text" id="nombre" formControlName="nombre" class="validate"/>
+                            <input type="text" id="nombre" formControlName="nombre" class="validate" disabled/>
                         </div>
                         <div class="input-field">
-                            <input type="text" id="direccion" formControlName="direccion" class="validate"/>
+                            <input type="text" id="direccion" formControlName="direccion" class="validate" required/>
                         </div>
                         <div class="input-field">
-                            <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                            <input type="text" id="telefono" formControlName="telefono" class="validate" required/>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
-                            <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                            <input type="text" id="razonSocial" formControlName="razonSocial" class="validate" required/>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
-                            <input type="text" id="nit" formControlName="nit" class="validate"/>
+                            <input type="text" id="nit" formControlName="nit" class="validate" required/>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
-                            <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate"/>
+                            <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate" required/>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
                             <label for="estadoTaller">Estado</label><br/><br/>
-                            <p-dropdown [options]="estadosProveedor" formControlName="estadoProveedor" [(ngModel)]="_estadoProveedor" class="validate"></p-dropdown>
+                            <p-dropdown [options]="estadosProveedor" formControlName="estadoProveedor" [(ngModel)]="_estadoProveedor" class="validate" required></p-dropdown>
                             <p>Estado seleccionado: {{_estadoProveedor ? _estadoProveedor : 'none'}}</p>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
                             <label for="usuario">Usuario</label><br/><br/>
-                            <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                            <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate" required></p-dropdown>
                             <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
-                            <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                            <input type="text" id="cargo" formControlName="cargo" class="validate" required/>
                             <label for="usuario">cargo</label><br/><br/>
                         </div>
                         <div class="input-field">
-                            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarProveedor()">Actualizar
+                            <button [disabled]="!updateProvForm.valid" class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarProveedor()">Actualizar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>

@@ -296,6 +296,7 @@ set estadoUsuario(value:string){
           }
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -386,6 +387,7 @@ set estadoUsuario(value:string){
                         }                      
                     },
                     error: err=>{
+                      this.dialogEditUsr = false;
                       this.errorMessage=err;
                       this.msgs = [];
                         this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -409,6 +411,7 @@ set estadoUsuario(value:string){
               
           },
           error: err=>{
+            this.dialogEditUsr = false;
             this.errorMessage=err;
             this.msgs = [];
               this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -441,6 +444,7 @@ set estadoUsuario(value:string){
           
         },
         error: err=>{
+          this.dialogEditUsr = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -477,6 +481,7 @@ set estadoUsuario(value:string){
         }
       },
       error: err=>{
+        this.dialogEditUsr = false;
         this.errorMessage=err;
         this.msgs = [];
           this.msgs.push({severity:'danger', summary:'Error', detail:''});

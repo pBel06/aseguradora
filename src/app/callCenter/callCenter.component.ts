@@ -149,6 +149,7 @@ constructor(private callCenterService:CallCenterService,private userService:User
           }  
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -193,7 +194,7 @@ constructor(private callCenterService:CallCenterService,private userService:User
               next: proveedor => {
                 if(proveedor != null){
                   console.log("*** Proveedor actualizado: ");
-                  this.dialogEditProv=false;
+                  this.dialogEditCce=false;
                   this._proveedorSelected = [];
                   this.msgs = [];
                   this.msgs.push({severity:'success', summary:'Proveedor actualizado', detail:''});
@@ -201,7 +202,7 @@ constructor(private callCenterService:CallCenterService,private userService:User
                   setTimeout(() => {}, 3000);
                   this.ngOnInit();
                 }else{
-                  this.dialogEditProv=false;
+                  this.dialogEditCce=false;
                   this._proveedorSelected = [];
                   this.msgs = [];
                   this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -211,6 +212,7 @@ constructor(private callCenterService:CallCenterService,private userService:User
                 }
               },
               error: err=>{
+                this.dialogEditCce = false;
                 this.errorMessage=err;
                 this.msgs = [];
                   this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -240,6 +242,7 @@ constructor(private callCenterService:CallCenterService,private userService:User
         }
       },
       error: err=>{
+        this.dialogEditCce=false;
         this.errorMessage=err;
         this.msgs = [];
           this.msgs.push({severity:'danger', summary:'Error', detail:''});

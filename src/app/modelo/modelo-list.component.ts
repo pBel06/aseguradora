@@ -183,6 +183,7 @@ set estadoModelo(value:string){
           }
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -245,6 +246,7 @@ set estadoModelo(value:string){
                       }                     
                     },
                     error: err=>{
+                      this.dialogEditMdl = false;
                       this.errorMessage=err;
                       this.msgs = [];
                         this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -267,6 +269,7 @@ set estadoModelo(value:string){
             }
           },
           error: err=>{
+            this.dialogEditMdl = false;
             this.errorMessage=err;
             this.msgs = [];
               this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -302,6 +305,7 @@ set estadoModelo(value:string){
           }
         },
         error: err=>{
+          this.dialogEditMdl = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -342,6 +346,7 @@ set estadoModelo(value:string){
               }
             },
             error: err=>{
+              this.dialogEditMdl = false;
               this.errorMessage=err;
               this.msgs = [];
                 this.msgs.push({severity:'danger', summary:'Error', detail:''});

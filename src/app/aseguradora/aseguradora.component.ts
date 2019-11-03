@@ -155,6 +155,7 @@ ngOnInit():void{
               }
             },
             error: err=>{
+              this.displayDialog = false;
               this.errorMessage=err;
               this.msgs = [];
                 this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -225,6 +226,7 @@ ngOnInit():void{
                     }
                   },
                   error: err=>{
+                    this.dialogEditAseg=false;
                     this.errorMessage=err;
                     this.msgs = [];
                       this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -254,6 +256,7 @@ ngOnInit():void{
             }
           },
           error: err=>{
+            this.dialogEditAseg=false;
             this.errorMessage=err;
             this.msgs = [];
               this.msgs.push({severity:'danger', summary:'Error', detail:''});

@@ -154,6 +154,7 @@ constructor(private tallerService:TallerService,private userService:UserService,
             
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -225,6 +226,7 @@ constructor(private tallerService:TallerService,private userService:UserService,
                   
               },
               error: err=>{
+                this.dialogEditTlr=false;
                 this.errorMessage=err;
                 this.msgs = [];
                   this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -254,6 +256,7 @@ constructor(private tallerService:TallerService,private userService:UserService,
         }
       },
       error: err=>{
+        this.dialogEditTlr=false;
         this.errorMessage=err;
         this.msgs = [];
           this.msgs.push({severity:'danger', summary:'Error', detail:''});

@@ -160,6 +160,7 @@ constructor(private proveedorService:ProveedorService,private userService:UserSe
           }  
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -226,6 +227,7 @@ constructor(private proveedorService:ProveedorService,private userService:UserSe
                 }
               },
               error: err=>{
+                this.dialogEditProv=false;
                 this.errorMessage=err;
                 this.msgs = [];
                   this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -255,6 +257,7 @@ constructor(private proveedorService:ProveedorService,private userService:UserSe
         }
       },
       error: err=>{
+        this.dialogEditProv=false;
         this.errorMessage=err;
         this.msgs = [];
           this.msgs.push({severity:'danger', summary:'Error', detail:''});

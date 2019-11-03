@@ -110,6 +110,7 @@ constructor(private marcaService:MarcaService,private alertService:AlertService)
           }
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -165,6 +166,7 @@ constructor(private marcaService:MarcaService,private alertService:AlertService)
           }
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});

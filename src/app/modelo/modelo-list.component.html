@@ -52,21 +52,21 @@
             <p-panel [showHeader]="false">
               <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
                     <div class="input-field">
-                        <input type="text" id="nombre" formControlName="nombre" class="validate"/>
+                        <input type="text" id="nombre" formControlName="nombre" class="validate" required/>
                         <label for="user">Nombre</label>
                     </div>
                     <div class="input-field">
                         <label for="marcaModelo">Marca del modelo</label><br/><br/>
-                        <p-dropdown [options]="marcasModelo" formControlName="marcaModelo" [(ngModel)]="_marcaSeleccionada" class="validate"></p-dropdown>
+                        <p-dropdown [options]="marcasModelo" formControlName="marcaModelo" [(ngModel)]="_marcaSeleccionada" class="validate" required></p-dropdown>
                         <p>Marca del modelo seleccionada: {{_marcaSeleccionada ? _marcaSeleccionada: 'none'}}</p>
                     </div>
                     <div class="input-field">
                         <label for="estadoModelo">Estado</label><br/><br/>
-                        <p-dropdown [options]="estadosModelo" formControlName="estadoModelo" [(ngModel)]="_estadoModelo" class="validate"></p-dropdown>
+                        <p-dropdown [options]="estadosModelo" formControlName="estadoModelo" [(ngModel)]="_estadoModelo" class="validate" required></p-dropdown>
                         <p>Estado seleccionado: {{_estadoModelo ? _estadoModelo : 'none'}}</p>
                     </div>
                     <div class="input-field">
-                        <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarModelo()">Guardar
+                        <button [disabled]="!registrarModeloForm.valid" class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarModelo()">Guardar
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
@@ -87,20 +87,20 @@
                         <input pInputText id="idMdl" formControlName="idMdl" style="visibility:hidden"/>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="nombre" formControlName="nombre" class="validate"/>
+                        <input type="text" id="nombre" formControlName="nombre" class="validate" disabled/>
                     </div>
                     <div class="input-field">
                       <label for="marcaModelo">Marca del modelo</label><br/><br/>
-                      <p-dropdown [options]="marcasModelo" formControlName="marcaModelo" [(ngModel)]="_marcaSeleccionada" class="validate"></p-dropdown>
+                      <p-dropdown [options]="marcasModelo" formControlName="marcaModelo" [(ngModel)]="_marcaSeleccionada" class="validate" required></p-dropdown>
                       <p>Tipo seleccionado: {{_marcaSeleccionada ? _marcaSeleccionada : 'none'}}</p>
                   </div>
                     <div class="input-field">
                       <label for="estadoModelo">Estado</label><br/><br/>
-                      <p-dropdown [options]="estadosModelo" formControlName="estadoModelo" [(ngModel)]="_estadoModelo" class="validate"></p-dropdown>
+                      <p-dropdown [options]="estadosModelo" formControlName="estadoModelo" [(ngModel)]="_estadoModelo" class="validate" required></p-dropdown>
                       <p>Estado seleccionado: {{_estadoModelo ? _estadoModelo : 'none'}}</p>
                   </div>
                     <div class="input-field">
-                        <button class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarModelo()">Actualizar
+                        <button [disabled]="!updateModeloForm.valid" class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarModelo()">Actualizar
                             <i class="material-icons right">send</i>
                         </button>
                     </div>

@@ -73,37 +73,44 @@
             <!-- <p-panel [showHeader]="false"> -->
               <!-- <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px"> -->
                     <div class="input-field">
-                        <input type="text" id="name" formControlName="nombre" class="validate"/>
+                        <input type="text" id="name" formControlName="nombre" class="validate" required />
                         <label for="name">Nombre</label>
+                        <!-- <div class="ui-grid-col-4">
+                            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registrarTallerForm.controls['nombre'].valid&&registrarTallerForm.controls['nombre'].dirty">
+                                <i class="fa fa-close"></i>
+                                Ingrese el nombre del taller
+                            </div>
+                        </div> -->
                     </div>
                     <div class="input-field">
-                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate" required />
                         <label for="razonSocial">Razon Social</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="direccion" formControlName="direccion" class="validate"/>
+                        <input type="text" id="direccion" formControlName="direccion" class="validate" required />
                         <label for="direccion">Direccion</label>
                     </div>
                     <div class="input-field">
-                        <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                        <input type="text" id="telefono" formControlName="telefono" class="validate" required />
                         <label for="telefono">Telefono</label>
                     </div>
                     <div class="input-field" style="display:inline-block;padding: 5px;">
                         <label for="estadoUsuario">Estado</label><br/><br/>
-                        <p-dropdown [options]="estadosTaller" formControlName="estadoTaller" [(ngModel)]="_estadoTaller" class="validate"></p-dropdown>
+                        <p-dropdown [options]="estadosTaller" formControlName="estadoTaller" [(ngModel)]="_estadoTaller" class="validate" required ></p-dropdown>
                         <p>Estado seleccionado: {{_estadoTaller ? _estadoTaller : 'none'}}</p>
                     </div>
                     <div class="input-field" style="display:inline-block;padding: 20px;">
                         <label for="usuario">Usuario</label><br/><br/>
-                        <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                        <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate" required ></p-dropdown>
                         <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
                     </div>
                     <div class="input-field" style="display:inline-block;padding: 20px;">
-                        <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                        <input type="text" id="cargo" formControlName="cargo" class="validate" required />
                         <label for="usuario">cargo</label><br/><br/>
                     </div>
                     <div class="input-field">
-                            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarTaller()">Guardar
+                            <!-- <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarTaller()">Guardar -->
+                            <button [disabled]="!registrarTallerForm.valid" class="btn waves-effect waves-light" name="action" (click)="guardarTaller()">Guardar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
@@ -124,37 +131,37 @@
                             <input pInputText id="idTlr" formControlName="idTlr" style="visibility:hidden"/>
                         </div>
                         <div class="input-field">
-                            <input type="text" id="nombre" formControlName="nombre" class="validate"/>
+                            <input type="text" id="nombre" formControlName="nombre" class="validate" disabled/>
                             <!-- <label for="name">Nombre</label> -->
                         </div>
                         <div class="input-field">
-                            <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                            <input type="text" id="razonSocial" formControlName="razonSocial" class="validate" required/>
                             <!-- <label for="name">Nombre</label> -->
                         </div>
                         <div class="input-field">
-                            <input type="text" id="direccion" formControlName="direccion" class="validate"/>
+                            <input type="text" id="direccion" formControlName="direccion" class="validate" required/>
                             <!-- <label for="name">Nombre</label> -->
                         </div>
                         <div class="input-field">
-                            <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                            <input type="text" id="telefono" formControlName="telefono" class="validate" required/>
                             <!-- <label for="name">Nombre</label> -->
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 5px;">
                             <label for="estadoUsuario">Estado</label><br/><br/>
-                            <p-dropdown [options]="estadosTaller" formControlName="estadoTaller" [(ngModel)]="_estadoTaller" class="validate"></p-dropdown>
+                            <p-dropdown [options]="estadosTaller" formControlName="estadoTaller" [(ngModel)]="_estadoTaller" class="validate" required></p-dropdown>
                             <p>Estado seleccionado: {{_estadoTaller ? _estadoTaller : 'none'}}</p>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
                             <label for="usuario">Usuario</label><br/><br/>
-                            <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                            <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate" required></p-dropdown>
                             <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
                         </div>
                         <div class="input-field" style="display:inline-block;padding: 20px;">
-                            <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                            <input type="text" id="cargo" formControlName="cargo" class="validate" required/>
                             <label for="usuario">cargo</label><br/><br/>
                         </div>
                         <div class="input-field">
-                            <button class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarTaller()">Actualizar
+                            <button [disabled]="!updateTallerForm.valid" class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarTaller()">Actualizar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>

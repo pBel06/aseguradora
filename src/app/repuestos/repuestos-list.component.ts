@@ -118,6 +118,7 @@ constructor(private repuestoService:RepuestoService,private alertService:AlertSe
             
         },
         error: err=>{
+          this.displayDialog = false;
           this.errorMessage=err;
           this.msgs = [];
             this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -177,6 +178,7 @@ constructor(private repuestoService:RepuestoService,private alertService:AlertSe
                   }
                 },
                 error: err=>{
+                  this.dialogEditRep=false;
                   this.errorMessage=err;
                   this.msgs = [];
                     this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -206,6 +208,7 @@ constructor(private repuestoService:RepuestoService,private alertService:AlertSe
       }
       },
       error: err=>{
+        this.dialogEditRep=false;
         this.errorMessage=err;
         this.msgs = [];
           this.msgs.push({severity:'danger', summary:'Error', detail:''});
