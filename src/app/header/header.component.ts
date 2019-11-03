@@ -68,6 +68,10 @@ ngOnInit(){
     this.router.navigate(['/repuestos']);
   }
 
+  principalCallCenter(){
+    this.router.navigate(['/callCenter']);
+  }
+
   principalStar(){
     this.router.navigate(['/star']);
   }

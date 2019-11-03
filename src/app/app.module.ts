@@ -37,12 +37,13 @@ import { ProveedorListComponent } from './proveedor/proveedor-list.component';
 import { ModeloListComponent } from './modelo/modelo-list.component';
 import { AlertComponent } from './alert/alert.component';
 import { RepuestoListComponent } from './repuestos/repuestos-list.component';
+import { CallCenterComponent } from './callCenter/callCenter.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,ProductDetailComponent,
-    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent
+    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
@@ -58,6 +59,7 @@ import { RepuestoListComponent } from './repuestos/repuestos-list.component';
       {path: 'modelos',component: ModeloListComponent},
       {path: 'proveedores',component: ProveedorListComponent},
       {path: 'repuestos',component: RepuestoListComponent},
+      {path: 'callCenter',component: CallCenterComponent},
       {path: 'star',component: StarComponent},
       {path: 'welcome',component: WelcomeComponent}
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},
