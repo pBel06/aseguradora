@@ -32,7 +32,7 @@ export class AseguradoraService{
       );
     }
 
-    guardarAseguradora(registrarAseguradoraForm:FormGroup,estado:boolean):Observable<IAseguradora>{
+    guardarAseguradora(registrarAseguradoraForm:FormGroup,estado:boolean,_userSeleccionado:string):Observable<IAseguradora>{
         console.log("Llamaremos al servicio para guardar una nueva aseguradora .. ");
         let mydate = new Date();
         this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
@@ -40,7 +40,12 @@ export class AseguradoraService{
           "nombre":registrarAseguradoraForm.controls['nombre'].value,
           "fechacreacion": mydate,
           "estado": ( estado ? true: false),
-          "usuariocrea":this.userL.nombre
+          "usuariocrea":this.userL.nombre,
+          "cargo":registrarAseguradoraForm.controls['cargo'].value,
+          "razonsocial":registrarAseguradoraForm.controls['razonSocial'].value,
+          "iva":registrarAseguradoraForm.controls['iva'].value,
+          "nit":registrarAseguradoraForm.controls['nit'].value,
+          "usuario":_userSeleccionado
         }));
         let body = this.nuevaAseg;
         const httpOptions = {
@@ -51,6 +56,29 @@ export class AseguradoraService{
         console.log("Datos enviados al servicio para almacenar el nuevo taller: " + JSON.stringify(body));
         return this.http.post<IAseguradora>(this.aseguradoraUrlBase+'/rest/Aseguradora/save', body, httpOptions).pipe(
           tap(data => console.log('Aseguradora almacenada: ' +JSON.stringify(data))),
+          catchError(this.handleError)
+        );
+      }
+
+      actualizarAseguradora(updateAsegForm: FormGroup,_userSeleccionado:string):Observable<IAseguradora>{
+        console.log("Llamaeremos al servicio de actualizar aseguradora ... ");
+        this.actualizarAseg = JSON.parse(JSON.stringify({
+          "nombre": updateAsegForm.controls['nombre'].value,
+          "cargo": updateAsegForm.controls['cargo'].value,
+          "razonsocial": updateAsegForm.controls['razonSocial'].value,
+          "nit": updateAsegForm.controls['nit'].value,
+          "iva": updateAsegForm.controls['iva'].value,
+          "usuario": _userSeleccionado
+        }));
+        let body = this.actualizarAseg;
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json' 
+          })
+        };
+        console.log("Datos enviados al servicio para actualizar el proveedor: " + JSON.stringify(body));
+        return this.http.put<IAseguradora>(this.aseguradoraUrlBase+'/rest/aseguradora/update', body, httpOptions).pipe(
+          tap(data => console.log('Taller actualizado: ' +JSON.stringify(data))),
           catchError(this.handleError)
         );
       }

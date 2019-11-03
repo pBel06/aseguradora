@@ -32,7 +32,7 @@ export class ProveedorService{
       );
     }
 
-    guardarProveedor(nuevoProvFrom:FormGroup,_estadoProveedor:boolean):Observable<IProveedor>{
+    guardarProveedor(nuevoProvFrom:FormGroup,_estadoProveedor:boolean,_userSeleccionado:string):Observable<IProveedor>{
       console.log("Llamaremos al servicio para guardar un nuevo proveedor .. ");
       let mydate = new Date();
       this.userL = JSON.parse(JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
@@ -41,7 +41,13 @@ export class ProveedorService{
         "direccion":nuevoProvFrom.controls['direccion'].value,
         "estado": ( _estadoProveedor ? true: false),
         "fechacreacion": mydate,
-        "usuariocrea": this.userL.nombre
+        "usuariocrea": this.userL.nombre,
+        "cargo":nuevoProvFrom.controls['cargo'].value,
+        "razonsocial":nuevoProvFrom.controls['razonSocial'].value,
+        "telefono":nuevoProvFrom.controls['telefono'].value,
+        "cuentabancaria":nuevoProvFrom.controls['cuentaBanc'].value,
+        "nit":nuevoProvFrom.controls['nit'].value,
+        "usuario":_userSeleccionado
       }));
       let body = this.nuevoProv;
       const httpOptions = {
@@ -56,11 +62,17 @@ export class ProveedorService{
       );
     }
 
-    actualizarProv(updateProvForm: FormGroup):Observable<IProveedor>{
+    actualizarProv(updateProvForm: FormGroup,_userSeleccionado:string):Observable<IProveedor>{
       console.log("Llamaeremos al servicio de actualizar proveedor ... ");
       this.actualizaProv = JSON.parse(JSON.stringify({
         "nombre": updateProvForm.controls['nombre'].value,
-        "direccion": updateProvForm.controls['direccion'].value
+        "direccion": updateProvForm.controls['direccion'].value,
+        "cargo": updateProvForm.controls['cargo'].value,
+        "razonsocial": updateProvForm.controls['razonSocial'].value,
+        "nit": updateProvForm.controls['nit'].value,
+        "telefono": updateProvForm.controls['telefono'].value,
+        "cuentabancaria": updateProvForm.controls['cuentaBanc'].value,
+        "usuario": _userSeleccionado
       }));
       let body = this.actualizaProv;
       const httpOptions = {

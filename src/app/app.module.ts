@@ -15,7 +15,8 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PaginatorModule} from 'primeng/paginator';
 import { GrowlModule } from "primeng/components/growl/growl";
 import { Message } from "primeng/components/common/api";
-
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {FileUploadModule} from 'primeng/fileupload';
 
 import { LoginComponent } from "./login/login.component";
 import { UserListComponent } from './users/user-list.component';
@@ -44,7 +45,7 @@ import { RepuestoListComponent } from './repuestos/repuestos-list.component';
     WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent
   ],
   imports: [
-    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,
+    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
     RouterModule.forRoot([
       {path: 'login',component: LoginComponent},
       {path: 'solicitudCorreo',component: SolicitudCorreoComponent},
@@ -57,6 +58,7 @@ import { RepuestoListComponent } from './repuestos/repuestos-list.component';
       {path: 'modelos',component: ModeloListComponent},
       {path: 'proveedores',component: ProveedorListComponent},
       {path: 'repuestos',component: RepuestoListComponent},
+      {path: 'star',component: StarComponent},
       {path: 'welcome',component: WelcomeComponent}
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},
       //{path: '**',component: WelcomeComponent,pathMatch: 'full'} /* pagina 404*/

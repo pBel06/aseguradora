@@ -60,9 +60,34 @@
                         <label for="direccion">Direccion</label>
                     </div>
                     <div class="input-field">
+                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                        <label for="razonSocial">Razon Social</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="nit" formControlName="nit" class="validate"/>
+                        <label for="nit">NIT</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate"/>
+                        <label for="cuentaBanc">Cuenta Bancaria</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                        <label for="telefono">Telefono</label>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 5px;">
                         <label for="estadoUsuario">Estado</label><br/><br/>
                         <p-dropdown [options]="estadosProveedor" formControlName="estadoProveedor" [(ngModel)]="_estadoProveedor" class="validate"></p-dropdown>
                         <p>Estado seleccionado: {{_estadoProveedor ? _estadoProveedor : 'none'}}</p>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <label for="usuario">Usuario</label><br/><br/>
+                        <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                        <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                        <label for="usuario">cargo</label><br/><br/>
                     </div>
                     <div class="input-field">
                             <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarProveedor()">Guardar
@@ -80,7 +105,7 @@
         <div class="ui-grid ui-grid-responsive ui-fluid">
             <!-- <h5 class="modal-title">Actualizacion de usuario</h5> -->
                  <form [formGroup]="updateProvForm">
-                <p-panel [showHeader]="false">
+                <!-- <p-panel [showHeader]="false"> -->
                   <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
                         <div class="input-field">
                             <input pInputText id="idProv" formControlName="idProv" style="visibility:hidden"/>
@@ -92,9 +117,30 @@
                             <input type="text" id="direccion" formControlName="direccion" class="validate"/>
                         </div>
                         <div class="input-field">
+                            <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <input type="text" id="nit" formControlName="nit" class="validate"/>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate"/>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
                             <label for="estadoTaller">Estado</label><br/><br/>
                             <p-dropdown [options]="estadosProveedor" formControlName="estadoProveedor" [(ngModel)]="_estadoProveedor" class="validate"></p-dropdown>
                             <p>Estado seleccionado: {{_estadoProveedor ? _estadoProveedor : 'none'}}</p>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <label for="usuario">Usuario</label><br/><br/>
+                            <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                            <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                            <label for="usuario">cargo</label><br/><br/>
                         </div>
                         <div class="input-field">
                             <button class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarProveedor()">Actualizar
@@ -102,12 +148,10 @@
                             </button>
                         </div>
                     </div>   
-                </p-panel> 
+                <!-- </p-panel>  -->
             </form> 
         </div>
       </p-dialog>
-
-  <!-- MODAL PARA ELIMINAR TALLER -->
 
   <!-- MODAL PARA VISUALIZAR PROVEEDOR -->
   <p-dialog [(visible)]="dialogVerProv" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [showHeader]="true" showEffect="fade" [modal]="true" [style]="{width: '720px', height: '48px'}">
@@ -121,6 +165,24 @@
                     </h5>
                     <div class="input-field">
                         <input type="text" id="direccion" formControlName="direccion" class="validate" disabled/>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="telefono" formControlName="telefono" class="validate" disabled/>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate" disabled/>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="nit" formControlName="nit" class="validate" disabled/>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="cuentaBanc" formControlName="cuentaBanc" class="validate" disabled/>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="usuario" formControlName="usuario" class="validate" disabled/>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="cargo" formControlName="cargo" class="validate" disabled/>
                     </div>
                     <div class="input-field">
                         <input type="text" id="estadoP" formControlName="estadoProveedor" class="validate" disabled/>

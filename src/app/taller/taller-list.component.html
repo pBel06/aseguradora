@@ -66,30 +66,51 @@
   </div>
   
   <!-- MODAL PARA AGREGAR TALLER -->
-  <p-dialog [(visible)]="displayDialog" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [showHeader]="true" showEffect="fade" [modal]="true" [style]="{width: '720px', height: '48px'}">
-    <div class="ui-grid ui-grid-responsive ui-fluid">
+  <p-dialog [(visible)]="displayDialog" [contentStyle]="{'overflow':'visible'}" [responsive]="true" [closable]="true" showEffect="fade" [modal]="true" [maximizable]="true" [style]="{width: '720px', height: '48px'}">
+    <!-- <div class="ui-grid ui-grid-responsive ui-fluid"> -->
         <h5 class="modal-title">Ingrese un nuevo taller</h5>
              <form [formGroup]="registrarTallerForm">
-            <p-panel [showHeader]="false">
-              <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+            <!-- <p-panel [showHeader]="false"> -->
+              <!-- <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px"> -->
                     <div class="input-field">
                         <input type="text" id="name" formControlName="nombre" class="validate"/>
                         <label for="name">Nombre</label>
                     </div>
                     <div class="input-field">
+                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                        <label for="razonSocial">Razon Social</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="direccion" formControlName="direccion" class="validate"/>
+                        <label for="direccion">Direccion</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                        <label for="telefono">Telefono</label>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 5px;">
                         <label for="estadoUsuario">Estado</label><br/><br/>
                         <p-dropdown [options]="estadosTaller" formControlName="estadoTaller" [(ngModel)]="_estadoTaller" class="validate"></p-dropdown>
                         <p>Estado seleccionado: {{_estadoTaller ? _estadoTaller : 'none'}}</p>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <label for="usuario">Usuario</label><br/><br/>
+                        <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                        <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
+                    </div>
+                    <div class="input-field" style="display:inline-block;padding: 20px;">
+                        <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                        <label for="usuario">cargo</label><br/><br/>
                     </div>
                     <div class="input-field">
                             <button class="btn waves-effect waves-light" type="submit" name="action" (click)="guardarTaller()">Guardar
                                 <i class="material-icons right">send</i>
                             </button>
                         </div>
-                </div>   
-            </p-panel> 
+                <!-- </div>    -->
+            <!-- </p-panel>  -->
         </form> 
-    </div>
+    <!-- </div> -->
   </p-dialog>
   
   <!-- MODAL PARA EDITAR TALLER -->
@@ -107,9 +128,30 @@
                             <!-- <label for="name">Nombre</label> -->
                         </div>
                         <div class="input-field">
-                            <label for="estadoTaller">Estado</label><br/><br/>
+                            <input type="text" id="razonSocial" formControlName="razonSocial" class="validate"/>
+                            <!-- <label for="name">Nombre</label> -->
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="direccion" formControlName="direccion" class="validate"/>
+                            <!-- <label for="name">Nombre</label> -->
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="telefono" formControlName="telefono" class="validate"/>
+                            <!-- <label for="name">Nombre</label> -->
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 5px;">
+                            <label for="estadoUsuario">Estado</label><br/><br/>
                             <p-dropdown [options]="estadosTaller" formControlName="estadoTaller" [(ngModel)]="_estadoTaller" class="validate"></p-dropdown>
                             <p>Estado seleccionado: {{_estadoTaller ? _estadoTaller : 'none'}}</p>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <label for="usuario">Usuario</label><br/><br/>
+                            <p-dropdown [options]="usuariosList" formControlName="usuario" [(ngModel)]="_userSeleccionado" class="validate"></p-dropdown>
+                            <p>Usuario seleccionado: {{_userSeleccionado ? _userSeleccionado.nombre : 'none'}}</p>
+                        </div>
+                        <div class="input-field" style="display:inline-block;padding: 20px;">
+                            <input type="text" id="cargo" formControlName="cargo" class="validate"/>
+                            <label for="usuario">cargo</label><br/><br/>
                         </div>
                         <div class="input-field">
                             <button class="btn waves-effect waves-light" type="submit" name="action" (click)="actualizarTaller()">Actualizar
@@ -139,6 +181,28 @@
                     <h5 class="valign-wrapper">
                         <i class="material-icons" style="margin-right: 10px">account_circle</i><input type="text" id="idTaller" formControlName="nombre" class="validate" disabled/>
                     </h5>
+                    
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="razonSocial" formControlName="razonSocial" class="validate" disabled/>
+                    </div>
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="direccion" formControlName="direccion" class="validate" disabled/>
+                    </div>
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="telefono" formControlName="telefono" class="validate" disabled/>
+                    </div>
+                   
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="usuario" formControlName="usuario" class="validate" disabled/>
+                    </div>
+                    <div class="input-field">
+                        <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
+                        <input type="text" id="cargo" formControlName="cargo" class="validate" disabled/>
+                    </div>
                     <div class="input-field">
                         <!-- <label for="tipoUsuario">Estado</label><br/><br/> -->
                         <input type="text" id="estadoT" formControlName="estadoTaller" class="validate" disabled/>

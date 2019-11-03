@@ -68,6 +68,10 @@ ngOnInit(){
     this.router.navigate(['/repuestos']);
   }
 
+  principalStar(){
+    this.router.navigate(['/star']);
+  }
+
   logOut(){
     this.authService.logout();
     this.router.navigate(['/login']);

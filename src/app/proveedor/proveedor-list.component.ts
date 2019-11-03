@@ -4,6 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IProveedor } from '../_model/proveedor.model';
 import { ProveedorService } from './proveedor.service';
 import { AlertService } from '../alert/alert.service';
+import { IUser } from '../_model/user.model';
+import { UserService } from '../users/user-list.services';
 
 @Component({
   templateUrl:'./proveedor-list.component.html'
@@ -15,6 +17,9 @@ export class ProveedorListComponent implements OnInit{
   _proveedorSelected: IProveedor[];
   _estadoProveedor: string;
   estadosProveedor: SelectItem[];
+  _userSeleccionado:string;
+  usuariosSource: IUser[];
+  usuariosList: SelectItem[]=[];
   estado:boolean;
 
   errorMessage:string;
@@ -28,7 +33,7 @@ export class ProveedorListComponent implements OnInit{
   verProvForm: FormGroup;
   updateProvForm: FormGroup;
 
-constructor(private proveedorService:ProveedorService,private alertService:AlertService){
+constructor(private proveedorService:ProveedorService,private userService:UserService,private alertService:AlertService){
   this.cols=[
     { field: 'id', header: 'numero' },
     { field: 'nombre', header: 'nombre' },
@@ -38,21 +43,39 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
   this.registrarProvForm = new FormGroup({
     nombre: new FormControl('',Validators.required),
     direccion: new FormControl('',Validators.required),
-    estadoProveedor: new FormControl('',Validators.required)
+    estadoProveedor: new FormControl('',Validators.required),
+    razonSocial: new FormControl('',Validators.required),
+    telefono: new FormControl('',Validators.required),
+    nit: new FormControl('',Validators.required),
+    usuario: new FormControl('',Validators.required),
+    cuentaBanc: new FormControl('',Validators.required),
+    cargo: new FormControl('',Validators.required)
   });
 
   this.verProvForm = new FormGroup({
     nombre: new FormControl('',Validators.required),
     direccion: new FormControl('',Validators.required),
     estadoProveedor: new FormControl('',Validators.required),
-    fechaCreacion: new FormControl('',Validators.required)
+    fechaCreacion: new FormControl('',Validators.required),
+    razonSocial: new FormControl('',Validators.required),
+    telefono: new FormControl('',Validators.required),
+    nit: new FormControl('',Validators.required),
+    usuario: new FormControl('',Validators.required),
+    cuentaBanc: new FormControl('',Validators.required),
+    cargo: new FormControl('',Validators.required)
   });
 
   this.updateProvForm = new FormGroup({
     idProv: new FormControl('',Validators.required),
     nombre: new FormControl('',Validators.required),
     direccion: new FormControl('',Validators.required),
-    estadoProveedor: new FormControl('',Validators.required)
+    estadoProveedor: new FormControl('',Validators.required),
+    razonSocial: new FormControl('',Validators.required),
+    telefono: new FormControl('',Validators.required),
+    nit: new FormControl('',Validators.required),
+    usuario: new FormControl('',Validators.required),
+    cuentaBanc: new FormControl('',Validators.required),
+    cargo: new FormControl('',Validators.required)
   });
 }
 
@@ -67,6 +90,19 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
         },
         error: err=>this.errorMessage=err
       });
+
+      //Consultando la lista de usuarios registrados
+      this.userService.getUsuarios().subscribe(usuariosSource => {
+        this.usuariosSource = usuariosSource;
+        if(this.usuariosSource && this.usuariosSource.length > 0){
+            for(let key in this.usuariosSource){
+                 console.log("Llenamos el dropdownList de usuarios");
+                 if(this.usuariosSource.hasOwnProperty(key)){
+                     this.usuariosList.push({label: this.usuariosSource[key].nombre, value: {id:this.usuariosSource[key].id,nombre:this.usuariosSource[key].nombre}});
+                 }
+            }
+        }
+     });
     }
 
   agregarProveedor(){
@@ -80,6 +116,13 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
 
     this.registrarProvForm.controls['nombre'].setValue("");
     this.registrarProvForm.controls['direccion'].setValue("");
+    this.registrarProvForm.controls['razonSocial'].setValue("");
+    this.registrarProvForm.controls['telefono'].setValue("");
+    this.registrarProvForm.controls['nit'].setValue("");
+    this.registrarProvForm.controls['usuario'].setValue("");
+    this.registrarProvForm.controls['cuentaBanc'].setValue("");
+    this.registrarProvForm.controls['cargo'].setValue("");
+
     this._estadoProveedor = "";
   }
 
@@ -93,7 +136,7 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
       this.estado=false;
     }
 
-    this.proveedorService.guardarProveedor(this.registrarProvForm,this.estado).subscribe({
+    this.proveedorService.guardarProveedor(this.registrarProvForm,this.estado,this._userSeleccionado).subscribe({
         next: userLog => {
           if(userLog != null){
             console.log("*** Proveedor guardado: ");
@@ -102,7 +145,7 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
             this._proveedorSelected=[];
             this.msgs = [];
             this.msgs.push({severity:'success', summary:'Proveedor creado', detail:''});
-            this.alertService.success("Se ha creado la proveedor");
+            this.alertService.success("Se ha creado el proveedor");
             setTimeout(() => {}, 3000);
             this.ngOnInit();
           }else{
@@ -130,6 +173,7 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
   editarProveedor(){
     console.log("editaremos el proveedor . .. ");
     this._estadoProveedor = "";
+    this.dialogEditProv=true;
     this.estadosProveedor=[
       {label:'', value:null},
       {label:'Activo', value:"Activo"},
@@ -140,12 +184,17 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
     this.updateProvForm.controls['idProv'].setValue(this._proveedorSelected[0].id);
     this.updateProvForm.controls['nombre'].setValue(this._proveedorSelected[0].nombre);
     this.updateProvForm.controls['direccion'].setValue(this._proveedorSelected[0].direccion);
-   
+    this.updateProvForm.controls['razonSocial'].setValue(this._proveedorSelected[0].razonsocial);
+    this.updateProvForm.controls['telefono'].setValue(this._proveedorSelected[0].telefono);
+    this.updateProvForm.controls['nit'].setValue(this._proveedorSelected[0].nit);
+    this.updateProvForm.controls['usuario'].setValue(this._proveedorSelected[0].usuario.nombre);
+    this.updateProvForm.controls['cuentaBanc'].setValue(this._proveedorSelected[0].cuentabancaria);
+    this.updateProvForm.controls['cargo'].setValue(this._proveedorSelected[0].cargo);   
   }
 
   actualizarProveedor(){
     console.log("Actualizando un proveedor ... ");
-    this.proveedorService.actualizarProv(this.updateProvForm).subscribe({
+    this.proveedorService.actualizarProv(this.updateProvForm,this._userSeleccionado).subscribe({
       next: proveeLog => {
         if(proveeLog != null){
           console.log("Hemos actualizado al proveedor " + JSON.stringify(proveeLog));
@@ -227,5 +276,11 @@ constructor(private proveedorService:ProveedorService,private alertService:Alert
       this.verProvForm.controls['estadoProveedor'].setValue("Inactivo");
     }
     this.verProvForm.controls['fechaCreacion'].setValue(this._proveedorSelected[0].fechacreacion);
+    this.verProvForm.controls['razonSocial'].setValue(this._proveedorSelected[0].razonsocial);
+    this.verProvForm.controls['telefono'].setValue(this._proveedorSelected[0].telefono);
+    this.verProvForm.controls['nit'].setValue(this._proveedorSelected[0].nit);
+    this.verProvForm.controls['usuario'].setValue(this._proveedorSelected[0].usuario.nombre);
+    this.verProvForm.controls['cuentaBanc'].setValue(this._proveedorSelected[0].cuentabancaria);
+    this.verProvForm.controls['cargo'].setValue(this._proveedorSelected[0].cargo);
   }
 }
