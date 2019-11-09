@@ -61,8 +61,8 @@ set estadoModelo(value:string){
   constructor(private marcaService:MarcaService,private modeloService: ModeloService,private alertService:AlertService){
 
     this.cols=[
-      { field: 'nombre', header: 'nombre' },
-      { field: 'nombreMarca', header: 'marca' }
+      { field: 'id', header: 'numero' },
+      { field: 'nombre', header: 'modelo' }
     ];
 
     this.registrarModeloForm = new FormGroup({

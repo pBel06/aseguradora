@@ -52,7 +52,13 @@
           </tbody>
       </table> -->
       <p-growl [value]="msgs" sticky="sticky"></p-growl>
-      <p-table [columns]="cols" [value]="usuariosView" [paginator]="true" [rows]="10" [responsive]="true" totalRecords="100"  [(selection)]="_usuarioSelected" dataKey="nombre">
+      <p-table #dt [columns]="cols" [value]="usuariosView" [paginator]="true" [rows]="10" [responsive]="true" totalRecords="100"  [(selection)]="_usuarioSelected" dataKey="nombre">
+          <ng-template pTemplate="caption">
+              <div style="text-align: right">        
+                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                  <input type="text" pInputText size="30" placeholder="Buscar" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              </div>
+          </ng-template>
           <ng-template pTemplate="header" let-columns>
               <tr>
                  <th style="width: 3em">

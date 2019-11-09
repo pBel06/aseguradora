@@ -24,7 +24,7 @@ export class CallCenterService{
          headers: {'Content-Type': 'application/json'},
          params: {}
        };
-       return this.http.get<ICallCenter[]>(this.provUrlBase+'/rest/callcenter/all',httpOptions).pipe(
+       return this.http.get<ICallCenter[]>(this.provUrlBase+'/rest/callcentee/all',httpOptions).pipe(
         tap(data => {
           console.log('Lista de call centers: ' +JSON.stringify(data));
         }),

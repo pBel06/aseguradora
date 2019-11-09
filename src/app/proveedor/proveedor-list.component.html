@@ -12,7 +12,13 @@
   <div class="row">
     <div class="col s12">
         <p-growl [value]="msgs" sticky="sticky"></p-growl>
-        <p-table [columns]="cols" [value]="proveedores" [paginator]="true" [rows]="3"   [responsive]="true" [(selection)]="_proveedorSelected" dataKey="nombre">
+        <p-table #dt [columns]="cols" [value]="proveedores" [paginator]="true" [rows]="3"   [responsive]="true" [(selection)]="_proveedorSelected" dataKey="nombre">
+            <ng-template pTemplate="caption">
+                <div style="text-align: right">        
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="30" placeholder="Buscar" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+            </ng-template>
             <ng-template pTemplate="header" let-columns>
                 <tr>
                     <th style="width: 3em">

@@ -40,6 +40,7 @@ export class TallerService{
         "nombre":nuevoTlrFrom.controls['nombre'].value,
         "razonsocial":nuevoTlrFrom.controls['razonSocial'].value,
         "telefono":nuevoTlrFrom.controls['telefono'].value,
+        "direccion": nuevoTlrFrom.controls['direccion'].value,
         "estado": ( _estadoTaller ? true: false),
         "fechacreacion": mydate,
         "cargo":nuevoTlrFrom.controls['cargo'].value,

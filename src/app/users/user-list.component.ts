@@ -546,6 +546,7 @@ set estadoUsuario(value:string){
     this.verUserForm.controls['fechaCreacion'].setValue(this._usuarioSelected[0].fechacreacion);
   }
 
+
   /*onRatingClicked(message:string):void{
     this.title= 'Product List: '+message;
   }*/
