@@ -6,6 +6,9 @@ import { FormGroup,  FormControl ,FormBuilder, Validators } from '@angular/forms
 import { ILoginResponse } from '../_model/loginResponse.model';
 import { Message } from 'primeng/primeng';
 import { AlertService } from '../alert/alert.service';
+import { UserService } from '../users/user-list.services';
+import { IUser } from '../_model/user.model';
+import { IPregXuser } from '../_model/pregXuser.model';
 
 @Component({
     templateUrl: './login.component.html'
@@ -20,16 +23,19 @@ export class LoginComponent implements OnInit{
     passTemp: string;
     errorMessage:string;
     userResponse: ILoginResponse;
+    isPreguntasPass:boolean;
+ 
 
    loginForm = new FormGroup({
       username: new FormControl('',Validators.required),
       pwd: new FormControl('',Validators.required),
     });
 
-    constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private router: Router, private loginService: LoginService,private alertService: AlertService) {}
+    constructor(private formBuilder: FormBuilder,private route: ActivatedRoute, private router: Router, private loginService: LoginService,private userService: UserService,private alertService: AlertService) {}
 
     ngOnInit() {
         console.log("Cargando ventana de login ...");
+
         if(localStorage.getItem("currentUser") != null){
              this.router.navigate(['/users']);
         }else{
@@ -94,4 +100,13 @@ export class LoginComponent implements OnInit{
       console.log("Vamos a recuperar la contrasenha...");
       this.router.navigate(['/solicitudCorreo']);
     }
+
+
+    crearContrasenha(){
+        console.log("Vamos a crear la contrasenha y preguntas de seguridad...");
+        this.router.navigate(['/crearPreguntas']);
+
+    }
+
+    
 }

@@ -11,6 +11,7 @@ export class AppComponent {
  // title = 'Aseguradora';
   isLogged : boolean;
   isReset: boolean;
+  isPreguntasPass: boolean;
   
   constructor(private  route:ActivatedRoute, private router:Router, private authService: LoginService){}
 
@@ -42,4 +43,5 @@ export class AppComponent {
     //return this.isLogged;
     return this.isLogged;
   }
+
 }

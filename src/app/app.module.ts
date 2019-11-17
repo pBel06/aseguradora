@@ -38,11 +38,12 @@ import { ModeloListComponent } from './modelo/modelo-list.component';
 import { AlertComponent } from './alert/alert.component';
 import { RepuestoListComponent } from './repuestos/repuestos-list.component';
 import { CallCenterComponent } from './callCenter/callCenter.component';
+import { PreguntasUserComponent } from './login/preguntasUser.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,ProductDetailComponent,
+    AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,PreguntasUserComponent,ProductDetailComponent,
     WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent
   ],
   imports: [
@@ -51,6 +52,7 @@ import { CallCenterComponent } from './callCenter/callCenter.component';
       {path: 'login',component: LoginComponent},
       {path: 'solicitudCorreo',component: SolicitudCorreoComponent},
       {path: 'resetContrasena',component: ResetPassComponent},
+      {path: 'crearPreguntas',component: PreguntasUserComponent},
       {path: 'users',component: UserListComponent},
       //{path: 'products/:id',canActivate:[ProductDetailGuard],component: ProductDetailComponent},
       {path: 'talleres',component: TallerListComponent},

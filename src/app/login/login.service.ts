@@ -7,6 +7,9 @@ import { FormGroup,FormControl } from '@angular/forms';
 import { ILoginResponse } from '../_model/loginResponse.model';
 import { IUser } from '../_model/user.model';
 import { IGenericResponse } from '../_model/genericResponse.model';
+import { IPreguntas } from '../_model/preguntas.model';
+import { IPregXuser } from '../_model/pregXuser.model';
+import { IPreguntasRepuestas } from '../_model/preguntasRespuestas.model';
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +20,7 @@ export class LoginService{
     //private loginUrl = "http://localhost:8014/autolink/rest/login";
     usuarioReset:IUser;
     genResponse: IGenericResponse;
+    pregResp: IPreguntasRepuestas
    
 
     constructor(private http: HttpClient){}
@@ -103,6 +107,55 @@ export class LoginService{
     );
   }
   
+  getPreguntas():Observable<IPreguntas[]>{
+    console.log("Llamaremos al servicio para consultar el listado de preguntas");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {}
+    };
+    return this.http.get<IPreguntas[]>(this.loginUrlBase+'/rest/preguntas/all',httpOptions).pipe(
+      tap(data => {
+        console.log('Preguntas: ' +JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  getPreguntasXUsB(id: number):Observable<IPregXuser>{
+    console.log("Llamaremos al servicio para consultar si el user tiene preguntas creadas");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {}
+    };
+    return this.http.get<IPregXuser>(this.loginUrlBase+'/rest/preguntas/byUser?id='+id,httpOptions).pipe(
+      tap(data => {
+        console.log('PreguntasXUser: ' +JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  savePreguntas(idPregunta:number,idUsuario:number,respuesta:string){
+    this.pregResp=JSON.parse(JSON.stringify({
+      "idPregunta": idPregunta,
+      "idUsuario":idUsuario,
+      "respuesta":respuesta
+    }));
+    let body = this.pregResp;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json' 
+      })
+    };
+    console.log("Datos enviados al servicio para guardar preguntas: " + JSON.stringify(body));
+
+    return this.http.post<IPregXuser>(this.loginUrlBase+'/rest/preguntas/save', body, httpOptions).pipe(
+      tap(data => console.log('Preguntas guardadas: ' +JSON.stringify(data))),
+      catchError(this.handleError)
+    );
+   
+  }
+
   private handleError(err: HttpErrorResponse){
     let errorMessage='';
     if(err.error instanceof ErrorEvent){
