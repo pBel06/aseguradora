@@ -72,6 +72,10 @@ ngOnInit(){
     this.router.navigate(['/callCenter']);
   }
 
+  principalCrearSoli(){
+    this.router.navigate(['/crearSolicitud']);
+  }
+
   principalStar(){
     this.router.navigate(['/star']);
   }

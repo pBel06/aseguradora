@@ -57,7 +57,7 @@ constructor(private repuestoService:RepuestoService,private alertService:AlertSe
 }
 
   ngOnInit():void{
-      console.log("Cargando ventana principal de talleres...");  
+      console.log("Cargando ventana principal de repuestos...");  
       this._estadoRepuesto="";
       this.repuestoService.getRepuestos().subscribe({
         next: repuestos => {

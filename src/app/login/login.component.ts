@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit{
                 //
                 console.log("*** Obtuvimos el usuario del logon: " + JSON.parse(JSON.stringify(localStorage.getItem('currentUser'))));
                 this.userResponse= userLog;
-                if(this.userResponse.mensaje == "Ingreso exitoso"){
+                if(this.userResponse.mensaje == "Ingreso exitoso" || this.userResponse.user != ""){
                     localStorage.setItem('currentUser',JSON.stringify(this.userResponse));
                     console.log("Valores de los usuarios --> nombre (antes del for): " + this.userResponse.nombre);
 

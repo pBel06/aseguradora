@@ -53,9 +53,10 @@ export class LoginService{
       console.log("Usuario a autenticar: " + body);
       return this.http.get<ILoginResponse>(this.loginUrlBase+'/rest/login2',httpOptions).pipe(
         tap(data => {
-          //localStorage.setItem('currentUser',JSON.stringify(data));
+          
           //console.log('Usuario logeado: ' +JSON.stringify(localStorage.getItem('currentUser')));
           console.log('Usuario logeado: ' +JSON.stringify(data));
+          localStorage.setItem('currentUser',JSON.stringify(data));
         }),
         catchError(this.handleError)
       );
