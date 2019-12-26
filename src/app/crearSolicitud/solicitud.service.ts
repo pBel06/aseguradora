@@ -26,6 +26,7 @@ export class SolicitudService{
   rep: IRepuesto;
   fecha: Date;
   minutos: number;
+  codigo: string;
  
   constructor(private http: HttpClient){}
 
@@ -46,15 +47,13 @@ export class SolicitudService{
       );
     }*/
 
-    generarCodigo():Observable<string>{
+    generarCodigo():Observable<any>{
       console.log("Llamaremos al servicio de login");
       const httpOptions = {
         headers: {'Accept': 'text/plain','Content-Type': 'text/plain'}
       };
-      return this.http.get<string>(this.solicitudUrlBase+'/rest/solicitud/code',httpOptions).pipe(
-        tap(data => {
-          console.log('codigo de solicitud: ' + JSON.stringify(data));
-        }),
+      return this.http.get<any>(this.solicitudUrlBase+'/rest/solicitud/code',httpOptions).pipe(
+        tap(data =>console.log('codigo de solicitud: ' + JSON.stringify(data).toString())),
         catchError(this.handleError)
       );
     }
@@ -149,6 +148,49 @@ export class SolicitudService{
         catchError(this.handleError)
       );
     }
+
+  consultarSolicitudesAll(): Observable<ISolicitud[]>{
+    console.log("Consultaremos el listado de solicitudes ingresadas.... ");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {}
+    };
+    return this.http.get<ISolicitud[]>(this.solicitudUrlBase+'/rest/solicitud/all',httpOptions).pipe(
+      tap(data => {
+        console.log('Lista de solicitudes: ' + JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  consultarSolicitudByCode(codigoSolicitud: string): Observable<ISolicitud>{
+    console.log("Consultaremos una solicitud by code.... ");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {code: codigoSolicitud}
+    };
+    return this.http.get<ISolicitud>(this.solicitudUrlBase+'/rest/solicitud/bycode',httpOptions).pipe(
+      tap(data => {
+        console.log('Solicitud consultada: ' + JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  consultarRepXSol(idSol:number):Observable<IRepuestoXSol[]>{
+    console.log("Consultaremos los repuestos de la solicitud ...");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {id: idSol.toString()}
+    };
+    return this.http.get<IRepuestoXSol[]>(this.solicitudUrlBase+'/rest/solicitud/repuesto',httpOptions).pipe(
+      tap(data => {
+        console.log('Repuesto de las solicitud consultada:  ' + idSol + " --> "+JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
 
     private handleError(err: HttpErrorResponse){
       let errorMessage='';

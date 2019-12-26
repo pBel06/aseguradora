@@ -40,12 +40,14 @@ import { RepuestoListComponent } from './repuestos/repuestos-list.component';
 import { CallCenterComponent } from './callCenter/callCenter.component';
 import { PreguntasUserComponent } from './login/preguntasUser.component';
 import { CrearSolicitudComponent } from './crearSolicitud/crearSolicitud.component';
+import { verSolicitudComponent } from './verSolicitud/verSolicitud.component';
+import { SolicitudDetailComponent } from './verSolicitud/solicitudDetail.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,PreguntasUserComponent,ProductDetailComponent,
-    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent
+    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent,verSolicitudComponent,SolicitudDetailComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
@@ -54,8 +56,7 @@ import { CrearSolicitudComponent } from './crearSolicitud/crearSolicitud.compone
       {path: 'solicitudCorreo',component: SolicitudCorreoComponent},
       {path: 'resetContrasena',component: ResetPassComponent},
       {path: 'crearPreguntas',component: PreguntasUserComponent},
-      {path: 'users',component: UserListComponent},
-      //{path: 'products/:id',canActivate:[ProductDetailGuard],component: ProductDetailComponent},
+      {path: 'users',component: UserListComponent},      
       {path: 'talleres',component: TallerListComponent},
       {path: 'aseguradoras',component: AseguradoraListComponent},
       {path: 'marcas',component: MarcaListComponent},
@@ -64,6 +65,9 @@ import { CrearSolicitudComponent } from './crearSolicitud/crearSolicitud.compone
       {path: 'repuestos',component: RepuestoListComponent},
       {path: 'callCenter',component: CallCenterComponent},
       {path: 'crearSolicitud',component: CrearSolicitudComponent},
+      {path: 'verSolicitud',component: verSolicitudComponent},
+      //{path: 'products/:id',canActivate:[ProductDetailGuard],component: ProductDetailComponent},
+      {path: 'verSolicitud/:codigoSolicitud/:id',component: SolicitudDetailComponent},
       {path: 'star',component: StarComponent},
       {path: 'welcome',component: WelcomeComponent}
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},

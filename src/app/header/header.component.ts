@@ -76,6 +76,10 @@ ngOnInit(){
     this.router.navigate(['/crearSolicitud']);
   }
 
+  principalVerSolicitud(){
+    this.router.navigate(['/verSolicitud']);
+  }
+
   principalStar(){
     this.router.navigate(['/star']);
   }

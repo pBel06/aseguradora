@@ -8,7 +8,7 @@ import { AseguradoraService } from '../aseguradora/aseguradora.service';
 import { IAseguradora } from '../_model/aseguradora.model';
 import { RepuestoService } from '../repuestos/repuestos.service';
 import { IRepuesto } from '../_model/repuesto.model';
-import { SolicitudService } from './crearSolicitud.service';
+import { SolicitudService } from './solicitud.service';
 import { IGenericResponse } from '../_model/genericResponse.model';
 import { ISolicitud } from '../_model/solicitud.model';
 import { ILoginResponse } from '../_model/loginResponse.model';
@@ -83,10 +83,11 @@ export class CrearSolicitudComponent implements OnInit{
         // OBTENIENDO CODIGO DE SOLICITUD
        this.solicitudService.generarCodigo().subscribe({
           next: codigo =>{
-            this.codigo = codigo;
+            this.codigo = codigo.toString();
             console.log("Codigo obtenido: " + this.codigo);
             //this.crearSolicitudTaller.controls['codigoSol'].setValue(this.codigo);
-          }
+          },
+          error: err=>this.errorMessage=err
         });
 
        //CARGANDO LISTA DE MARCAS
