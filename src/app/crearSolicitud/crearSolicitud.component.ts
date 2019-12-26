@@ -85,7 +85,7 @@ export class CrearSolicitudComponent implements OnInit{
           next: codigo =>{
             this.codigo = codigo.toString();
             console.log("Codigo obtenido: " + this.codigo);
-            //this.crearSolicitudTaller.controls['codigoSol'].setValue(this.codigo);
+            this.crearSolicitudTaller.controls['codigoSol'].setValue(this.codigo);
           },
           error: err=>this.errorMessage=err
         });

@@ -30,30 +30,17 @@ export class SolicitudService{
  
   constructor(private http: HttpClient){}
 
-   /* generarCodigo(): Observable<string>{
+    generarCodigo():Observable<string>{
+      
       console.log("Llamaremos al servicio de login");
-      let body = JSON.stringify({});
       const httpOptions = {
-        headers: {'Content-Type': 'application/json'},
-        params: {},
-        responseTye: "text"
-      };
-      console.log("Usuario a autenticar: " + body);
+        headers: new HttpHeaders ({'Content-Type': 'application/json',}), 
+        responseType: 'text' as 'json'};
       return this.http.get<string>(this.solicitudUrlBase+'/rest/solicitud/code',httpOptions).pipe(
-        tap(data => {
-          console.log('codigo de solicitud: ' +data);
+        tap(data =>{
+          data = JSON.stringify(JSON.parse(JSON.stringify(data))),
+          console.log('codigo de solicitud: ' + JSON.stringify(data).toString())
         }),
-        catchError(this.handleError)
-      );
-    }*/
-
-    generarCodigo():Observable<any>{
-      console.log("Llamaremos al servicio de login");
-      const httpOptions = {
-        headers: {'Accept': 'text/plain','Content-Type': 'text/plain'}
-      };
-      return this.http.get<any>(this.solicitudUrlBase+'/rest/solicitud/code',httpOptions).pipe(
-        tap(data =>console.log('codigo de solicitud: ' + JSON.stringify(data).toString())),
         catchError(this.handleError)
       );
     }
@@ -77,7 +64,7 @@ export class SolicitudService{
         poliza: crearSolicitudTaller.controls['poliza'].value,
         siniestro: crearSolicitudTaller.controls['siniestro'].value,
         nombreAsegurado: crearSolicitudTaller.controls['nombre'].value,
-        codigoSolicitud: "SOL00000001",//crearSolicitudTaller.controls['anho'].value,
+        codigoSolicitud: crearSolicitudTaller.controls['codigoSol'].value,
         estado: estado,
         comentariosTaller: crearSolicitudTaller.controls['comentarios'].value,
         fechaInicio: this.fecha,
