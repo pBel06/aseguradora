@@ -10,9 +10,9 @@ import { ILoginResponse } from '../_model/loginResponse.model';
 import { staticViewQueryIds } from '@angular/compiler';
 
 @Component({ /* no podemos selector porque no lo sera un componente nested, sino que será una nueva pagina a mostrar por medio de enrutamiento*/
-    templateUrl:'./solicitudDetail.component.html'
+    templateUrl:'./detailSolProv.component.html'
 })
-export class SolicitudDetailComponent implements OnInit{
+export class DetailSolProvComponent implements OnInit{
     errorMessage:string;
     pageTitle: string = 'Detalle de solicitud';
     solicitudSeleccionada: ISolicitud;
@@ -22,7 +22,7 @@ export class SolicitudDetailComponent implements OnInit{
     userLog: ILoginResponse;
 
     //@ViewChild("codigoSol",{static:true}) tref: ElementRef;
-    @ViewChild("codigoSol",{static:true}) element: ElementRef;
+    //@ViewChild("codigoSol",{static:true}) element: ElementRef;
 
     constructor(private route:ActivatedRoute, private router:Router, private solicitudService:SolicitudService,private alertService:AlertService,private renderer: Renderer2){
         this.solicitudTaller = new FormGroup({
@@ -81,7 +81,7 @@ export class SolicitudDetailComponent implements OnInit{
                                 if(this.userLog.tipo=="taller"){
                                     this.solicitudTaller.controls['codigoSol'].setValue(solicitud.codigoSolicitud);
                                     this.solicitudTaller.controls['nombre'].setValue(solicitud.nombreAsegurado);  
-                                    this.renderer.setAttribute(this.element.nativeElement,"enabled","true");                         
+                                    //this.renderer.setAttribute(this.element.nativeElement,"enabled","true");                         
                                     this.solicitudTaller.controls['marca'].setValue(solicitud.idMarca.nombre);
                                     this.solicitudTaller.controls['modelo'].setValue("");
                                     this.solicitudTaller.controls['anho'].setValue(solicitud.anioCarro);

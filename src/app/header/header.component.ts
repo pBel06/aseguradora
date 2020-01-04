@@ -80,6 +80,10 @@ ngOnInit(){
     this.router.navigate(['/verSolicitud']);
   }
 
+  principalSoliProveedor(){
+    this.router.navigate(['/solicitudProveedor']);
+  }
+
   principalStar(){
     this.router.navigate(['/star']);
   }

@@ -42,12 +42,15 @@ import { PreguntasUserComponent } from './login/preguntasUser.component';
 import { CrearSolicitudComponent } from './crearSolicitud/crearSolicitud.component';
 import { verSolicitudComponent } from './verSolicitud/verSolicitud.component';
 import { SolicitudDetailComponent } from './verSolicitud/solicitudDetail.component';
+import { SolicitudProveedorComponent } from './solicitudProveedor/solicitudProveedor.component';
+import { DetailSolProvComponent } from './solicitudProveedor/detailSolProv.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,PreguntasUserComponent,ProductDetailComponent,
-    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent,verSolicitudComponent,SolicitudDetailComponent
+    WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent,verSolicitudComponent,SolicitudDetailComponent,SolicitudProveedorComponent,
+    DetailSolProvComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
@@ -68,6 +71,8 @@ import { SolicitudDetailComponent } from './verSolicitud/solicitudDetail.compone
       {path: 'verSolicitud',component: verSolicitudComponent},
       //{path: 'products/:id',canActivate:[ProductDetailGuard],component: ProductDetailComponent},
       {path: 'verSolicitud/:codigoSolicitud/:id',component: SolicitudDetailComponent},
+      {path: 'solicitudProveedor',component: SolicitudProveedorComponent},
+      {path: 'solicitudProveedor/:codigoSolicitud/:id',component: DetailSolProvComponent},
       {path: 'star',component: StarComponent},
       {path: 'welcome',component: WelcomeComponent}
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},
