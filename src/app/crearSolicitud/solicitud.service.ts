@@ -115,7 +115,7 @@ export class SolicitudService{
       );
     }
 
-    guardarRepXSol(codigoSolicitud:string,idRep: string):Observable<IRepuestoXSol>{
+    guardarRepXSol(codigoSolicitud:string,idRep: number):Observable<IRepuestoXSol>{
       console.log("Guardando los respuestos de la solicitud");
       this.rep = JSON.parse(JSON.stringify(idRep));
         this.repXSolRqst=JSON.parse(JSON.stringify({ 
@@ -130,7 +130,7 @@ export class SolicitudService{
         })
       };
       console.log("Datos enviados al servicio para almacenar el repuesto de la solicitud: " + JSON.stringify(body));
-      return this.http.post<IRepuestoXSol>(this.solicitudUrlBase+'/rest/repuesto/save', body, httpOptions).pipe(
+      return this.http.post<IRepuestoXSol>(this.solicitudUrlBase+'/rest/solicitud/repuesto/save', body, httpOptions).pipe(
         tap(data => console.log('Repuesto almacenado en la solicitud: ' +JSON.stringify(data))),
         catchError(this.handleError)
       );
@@ -173,6 +173,20 @@ export class SolicitudService{
     return this.http.get<IRepuestoXSol[]>(this.solicitudUrlBase+'/rest/solicitud/repuesto',httpOptions).pipe(
       tap(data => {
         console.log('Repuesto de las solicitud consultada:  ' + idSol + " --> "+JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  consultarSolByEstado(estado: string):Observable<ISolicitud[]>{
+    console.log("Consultaremos una solicitud by code.... ");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {estado: estado}
+    };
+    return this.http.get<ISolicitud[]>(this.solicitudUrlBase+'/rest/solicitud/byEstado',httpOptions).pipe(
+      tap(data => {
+        console.log('Solicitud consultada: ' + JSON.stringify(data));
       }),
       catchError(this.handleError)
     );

@@ -1,0 +1,19 @@
+<div class="input-field">
+    <label for="marcaModelo">Marca del modelo</label><br/><br/>
+    <p-dropdown [options]="marcasModelo" formControlName="marcaModelo" [(ngModel)]="_marcaSeleccionada" class="validate" required></p-dropdown>
+    <p>Marca del modelo seleccionada: {{_marcaSeleccionada ? _marcaSeleccionada: 'none'}}</p>
+</div>
+
+
+<!-- <div class="crop"
+     [style.width.px]="starWidth"
+     [title]="rating"
+     (click)="onClick()">
+  <div style="width: 75px">
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+  </div>
+</div> -->

@@ -72,29 +72,76 @@
                     <input type="text" id="tiempo" formControlName="tiempo" class="validate" required/>
                 </div>
             </div>
-            <div>
-                <div class="input-field" style="display:inline-block;padding: 20px;">
-                    <label for="repuestos">Repuestos</label><br/><br/>
-                    <p-dropdown [options]="piezas" formControlName="repuestos" [(ngModel)]="_repuestoSeleccionado" class="validate" required></p-dropdown>
-                    <!-- <p>Aseguradora: {{_repuestoSeleccionado ? _repuestoSeleccionado: 'none'}}</p> -->
-                </div>
-                <div class="input-field" style="display:inline-block;padding: 20px;">
-                    <label for="cantidadRep">Cantidad</label><br/><br/>
-                    <input type="text" id="cantidadRep" formControlName="cantidadRep" class="validate" required/>
-                </div>
+           
+           
 
-            </div>
             <div>
                 <div class="input-field" style="display:inline-block;padding: 20px;">
                     <label for="comentarios">Comentarios</label><br/><br/>
                     <input type="text" id="comentarios" formControlName="comentarios" class="validate" required/>
                 </div>
             </div>
-            <!-- BOTONES -->
-            <div>
-                <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="limpiarForm()">Cancelar</button>
-                <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarSolicitud('Pendiente')">Guardar</button>
-                <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarSolicitud('Enviar')">Enviar</button>
-            </div>
+           
+          
         </div>   
   </form>
+
+  <div> <!-- SECCION DE SELECCION REPUESTOS -->
+    <!--  <div class="input-field" style="display:inline-block;padding: 20px;">
+         <label for="repuestos">Repuestos</label><br/><br/>
+         <p-dropdown [options]="piezas" formControlName="repuestos" [(ngModel)]="_repuestoSeleccionado" class="validate" required></p-dropdown>
+     </div>
+     <div class="input-field" style="display:inline-block;padding: 20px;">
+         <label for="cantidadRep">Cantidad</label><br/><br/>
+         <input type="text" id="cantidadRep" formControlName="cantidadRep" class="validate" required/>
+     </div> -->
+
+     <p-table [value]="repuestos2" [paginator]="true" [rows]="5" dataKey="nombre" editMode="row">
+         <ng-template pTemplate="header">
+             <tr>
+                 <th>nombre repuesto</th>
+                 <th>valor</th>
+                 <!-- <th>Brand</th>
+                 <th>Color</th> -->
+                 <th style="width:8em"></th>
+             </tr>
+         </ng-template>
+         <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+             <tr [pEditableRow]="rowData">
+                 <td>
+                     {{rowData.nombre}}
+                 </td>
+                 <td>
+                     <!-- <p-cellEditor>
+                         <ng-template pTemplate="input">
+                             <input pInputText type="text" [(ngModel)]="rowData.valor" required>
+                         </ng-template>
+                         <ng-template pTemplate="output">
+                             {{rowData.valor}}
+                         </ng-template>
+                     </p-cellEditor> -->
+                     <p-cellEditor>
+                         <ng-template pTemplate="input">
+                             <input pInputText type="text" [(ngModel)]="rowData.cantidad" required>
+                         </ng-template>
+                         <ng-template pTemplate="output">
+                             {{rowData.cantidad}}
+                         </ng-template>
+                     </p-cellEditor>
+                 </td>
+                 <td style="text-align:center">
+                     <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                     <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success" style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                     <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger" (click)="onRowEditCancel(rowData, ri)"></button>
+                 </td>
+             </tr>
+         </ng-template>
+     </p-table>
+ </div>
+
+  <!-- BOTONES -->
+  <div>
+    <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="limpiarForm()">Cancelar</button>
+    <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarSolicitud('Pendiente' ,rowData)">Guardar</button>
+    <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarSolicitud('Enviar',rowData)">Enviar</button>
+</div>

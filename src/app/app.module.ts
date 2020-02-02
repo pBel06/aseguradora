@@ -44,16 +44,19 @@ import { verSolicitudComponent } from './verSolicitud/verSolicitud.component';
 import { SolicitudDetailComponent } from './verSolicitud/solicitudDetail.component';
 import { SolicitudProveedorComponent } from './solicitudProveedor/solicitudProveedor.component';
 import { DetailSolProvComponent } from './solicitudProveedor/detailSolProv.component';
-
+import { adminSolicitudesComponent } from './administrador/adminSolicitudes.component';
+import { DetailSolAdminComponent } from './administrador/detailSolAdmin.component';
+import { BuscadorComponent } from './administrador/buscador.component';
+import {ImageUploadModule} from 'angular2-image-upload';
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,PreguntasUserComponent,ProductDetailComponent,
     WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent,verSolicitudComponent,SolicitudDetailComponent,SolicitudProveedorComponent,
-    DetailSolProvComponent
+    DetailSolProvComponent,adminSolicitudesComponent,DetailSolAdminComponent,BuscadorComponent
   ],
   imports: [
-    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
+    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule,ImageUploadModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
     RouterModule.forRoot([
       {path: 'login',component: LoginComponent},
       {path: 'solicitudCorreo',component: SolicitudCorreoComponent},
@@ -73,6 +76,8 @@ import { DetailSolProvComponent } from './solicitudProveedor/detailSolProv.compo
       {path: 'verSolicitud/:codigoSolicitud/:id',component: SolicitudDetailComponent},
       {path: 'solicitudProveedor',component: SolicitudProveedorComponent},
       {path: 'solicitudProveedor/:codigoSolicitud/:id',component: DetailSolProvComponent},
+      {path: 'administrador',component: adminSolicitudesComponent},
+      {path: 'solicitudAdmin/:codigoSolicitud/:id',component: DetailSolAdminComponent},
       {path: 'star',component: StarComponent},
       {path: 'welcome',component: WelcomeComponent}
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},

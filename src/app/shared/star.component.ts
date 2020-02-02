@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AseguradoraService } from '../aseguradora/aseguradora.service';
 import { IAseguradora } from '../_model/aseguradora.model';
 import { SelectItem } from 'primeng/api';
-import { HttpHeaders, XhrFactory } from '@angular/common/http';
+import { HttpHeaders, XhrFactory, HttpClient } from '@angular/common/http';
+import { FileUpload } from 'primeng/primeng';
 
 @Component({
   templateUrl:'./star.component.html'
@@ -15,7 +16,13 @@ export class StarComponent implements OnInit{
   uploadedFiles: any[] = [];
   encabezado: HttpHeaders;
 
-  constructor(private aseguradoraService: AseguradoraService){}
+  
+  fileData: File = null;
+previewUrl:any = null;
+fileUploadProgress: string = null;
+uploadedFilePath: string = null;
+
+  constructor(private http: HttpClient,private aseguradoraService: AseguradoraService){}
   
   ngOnInit(){
     console.log("Consultando aseguradoras...  1 ");
@@ -26,7 +33,41 @@ export class StarComponent implements OnInit{
       },
       error: err=>{}
     });
-  } 
+  }
+
+fileProgress(fileInput: any) {
+      this.fileData = <File>fileInput.target.files[0];
+      this.preview();
+}
+ 
+preview() {
+    // Show preview 
+    var mimeType = this.fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+ 
+    var reader = new FileReader();      
+    reader.readAsDataURL(this.fileData); 
+    reader.onload = (_event) => { 
+      this.previewUrl = reader.result; 
+    }
+}
+ 
+onSubmit() {
+    const formData = new FormData();
+      formData.append('file', this.fileData);
+      this.http.post('http://localhost:8014/autolink/rest/solicitud/foto/save', formData)
+        .subscribe(res => {
+          console.log(res);
+          this.uploadedFilePath = res.toString();
+          alert('SUCCESS !!');
+        })
+}
+
+  onUploadFinish(event) {
+    console.log("Imagen .... " + event);
+   }
 
   filtrarAseguradora(event){
     this.filtrado = [];

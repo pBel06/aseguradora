@@ -84,6 +84,14 @@ ngOnInit(){
     this.router.navigate(['/solicitudProveedor']);
   }
 
+  principalAdmin(){
+    this.router.navigate(['/administrador']);
+  }
+
+  principalAdminSol(){
+    this.router.navigate(['/administrador']);
+  }
+
   principalStar(){
     this.router.navigate(['/star']);
   }

@@ -22,20 +22,22 @@
 <nav id="nav-principal" *ngIf='userLog'>
     <!-- <a id="mp" style="color:#fff;cursor:pointer" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo">Autolink</a>
+        <!-- <a href="#" class="brand-logo">Autolink</a> -->
         <!-- <a data-target="md" class="sidenav-trigger"><i class="material-icons">menu</i></a> -->
         <ul class="right hide-on-med-and-down">
-            <li><a (click)='principalUsuario()'>Usuarios</a></li>
-            <li><a (click)='principalTaller()'>Talleres</a></li>
-            <li><a (click)='principalAseguradora()'>Aseguradoras</a></li>
+            <li><a (click)='principalUsuario()'>Users</a></li>
+            <li><a (click)='principalTaller()'>Taller</a></li>
+            <li><a (click)='principalAseguradora()'>Asegss</a></li>
             <li><a (click)='principalMarca()'>Marcas</a></li>
             <li><a (click)='principalModelo()'>Modelos</a></li>
-            <li><a (click)='principalProveedor()'>Proveedores</a></li>
-            <li><a (click)='principalRepuesto()'>Repuestos</a></li>
-            <li><a (click)='principalCallCenter()'>CallCenter</a></li>
-            <li><a (click)='principalCrearSoli()'>Crear Solicitud</a></li>
-            <li><a (click)='principalVerSolicitud()'>Ver Solicitud</a></li>
-            <li><a (click)='principalSoliProveedor()'>Solicitud Proveedor</a></li>
+            <li><a (click)='principalProveedor()'>Provs</a></li>
+            <li><a (click)='principalRepuesto()'>Reps</a></li>
+            <li><a (click)='principalCallCenter()'>CCE</a></li>
+            <li><a (click)='principalCrearSoli()'>CrearSol</a></li>
+            <li><a (click)='principalVerSolicitud()'>VerSol</a></li>
+            <li><a (click)='principalSoliProveedor()'>SolProvr</a></li>
+            <li><a (click)='principalAdmin()'>Admin</a></li> <!-- cuadro resumen con todas las solicitudes -->
+            <!-- <li><a (click)='principalAdminSol()'>SolicAdmn</a></li> -->
             <li><a (click)='principalStar()'>Star</a></li>
             <li><a (click)='logOut()'>Salir</a></li>
         </ul>
