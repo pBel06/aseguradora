@@ -22,6 +22,11 @@ export class verSolicitudComponent implements OnInit{
     msgs: Message[] = [];
     errorMessage:string;
     solicitudesSource: ISolicitud[]=[];
+    solicitudesANUSource: ISolicitud[]=[];
+    solicitudesDEPSource: ISolicitud[]=[];
+    solicitudesESCSource: ISolicitud[]=[];
+    solicitudesCPDSource: ISolicitud[]=[];
+    solicitudesCEASource: ISolicitud[]=[];
     cols: any[];
     _solicitudSelected:string;
     solicitudSelected: ISolicitud;
@@ -71,5 +76,56 @@ export class verSolicitudComponent implements OnInit{
               },
               error: err=>this.errorMessage=err
             });
+
+        //CARGANDO LAS SOLICITUDES ANULADAS
+        this.solicitudService.consultarSolByEstado("ANU").subscribe({
+          next: solicitudes => {
+              this.solicitudesANUSource=solicitudes
+              console.log("Lista de solicitudes anuladas...");
+              console.log(JSON.stringify(this.solicitudesANUSource));
+            },
+            error: err=>this.errorMessage=err
+          });
+
+           //CARGANDO LAS SOLICITUDES ESPACHADO POR PROVEEDOR (DEP)
+        this.solicitudService.consultarSolByEstado("DEP").subscribe({
+          next: solicitudes => {
+              this.solicitudesDEPSource=solicitudes
+              console.log("Lista de solicitudes DEP...");
+              console.log(JSON.stringify(this.solicitudesDEPSource));
+            },
+            error: err=>this.errorMessage=err
+          });
+
+          //ENTREGADO A SATISFACCIÓN DEL CLIENTE (ESC)
+          this.solicitudService.consultarSolByEstado("ESC").subscribe({
+            next: solicitudes => {
+                this.solicitudesESCSource=solicitudes
+                console.log("Lista de solicitudes ESC...");
+                console.log(JSON.stringify(this.solicitudesESCSource));
+              },
+              error: err=>this.errorMessage=err
+            });
+
+          //CERRADA POR DESIERTA (CPD)
+          this.solicitudService.consultarSolByEstado("CPD").subscribe({
+            next: solicitudes => {
+                this.solicitudesCPDSource=solicitudes
+                console.log("Lista de solicitudes CPD...");
+                console.log(JSON.stringify(this.solicitudesCPDSource));
+              },
+              error: err=>this.errorMessage=err
+            });
+
+          //CERRADA POR ASEGURADORA (CEA)
+          this.solicitudService.consultarSolByEstado("CEA").subscribe({
+            next: solicitudes => {
+                this.solicitudesCEASource=solicitudes
+                console.log("Lista de solicitudes CEA...");
+                console.log(JSON.stringify(this.solicitudesCEASource));
+              },
+              error: err=>this.errorMessage=err
+            });
+
       }//CIERRE DE ONINIT
 }
