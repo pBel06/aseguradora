@@ -11,16 +11,18 @@ import { staticViewQueryIds } from '@angular/compiler';
 import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 
 @Component({ /* no podemos selector porque no lo sera un componente nested, sino que será una nueva pagina a mostrar por medio de enrutamiento*/
-    templateUrl:'./solicitudDetail.component.html'
+    templateUrl:'./solicitudCSDetail.component.html'
 })
-export class SolicitudDetailComponent implements OnInit{
+export class SolicitudCSDetailComponent implements OnInit{
     errorMessage:string;
     pageTitle: string = 'Detalle de solicitud';
     solicitudSeleccionada: ISolicitud;
+    solicitudAct: ISolicitud;
     repXSolicitud: IRepuestoXSol[] = [];
     solicitudTaller:FormGroup;
     msgs: Message[] = [];
     userLog: ILoginResponse;
+    id: number;
 
     //@ViewChild("codigoSol",{static:true}) tref: ElementRef;
     @ViewChild("codigoSol",{static:true}) element: ElementRef;
@@ -49,10 +51,10 @@ export class SolicitudDetailComponent implements OnInit{
 
     ngOnInit(){
         let codigoSolicitud =this.route.snapshot.paramMap.get('codigoSolicitud');
-        let id = +this.route.snapshot.paramMap.get('id');
-        console.log("Cargando el detalle de la solicitud: " + codigoSolicitud+ " id:" + id);
+        this.id = +this.route.snapshot.paramMap.get('id');
+        console.log("Cargando el detalle de la solicitud: " + codigoSolicitud+ " id:" + this.id);
         this.pageTitle += `: ${codigoSolicitud}`;
-        this.consultarSolicitud(codigoSolicitud, id);
+        this.consultarSolicitud(codigoSolicitud, this.id);
     }
 
    /* ngAfterViewInit(): void {
@@ -94,6 +96,7 @@ export class SolicitudDetailComponent implements OnInit{
                                     this.solicitudTaller.controls['poliza'].setValue(solicitud.poliza);
                                     this.solicitudTaller.controls['aseguradora'].setValue(solicitud.idAseguradora.nombre);
                                     this.solicitudTaller.controls['tiempo'].setValue(solicitud.fechaFin);
+                                    
                                 /* for(let key in this.repXSolicitud){
                                         console.log("Leemos los repuestos");
                                         if(this.repXSolicitud.hasOwnProperty(key)){
@@ -133,31 +136,16 @@ export class SolicitudDetailComponent implements OnInit{
             });
       }//CIERRE DE consultarSolicitud
 
-      //CAMBIO DE ESTADO DEP -> ESC
-      /*
-      this.solicitudService.guardarSolicitud(estado,this.usuario,this.usrTaller,this.crearSolicitudTaller,this._marcaSeleccionada,this._aseguradoraSeleccionada,this._repuestoSeleccionado).subscribe({
-        next: solicitudCreada => {
-            this.solicitud=solicitudCreada;
-            console.log("Obteniendo la informacion de la solicitud creada en estado borrador...");
-            if(this.solicitud && this.solicitud != null){
-                console.log("Codigo de la solicitud: " + JSON.stringify(this.solicitud.codigoSolicitud));
+      updateStatusSolicitud(estado:string){
+
+       
+      this.solicitudService.updateStSolicitud(estado,this.id).subscribe({
+        next: solicitudAct => {
+            this.solicitudAct=solicitudAct;
+            console.log("Obteniendo la informacion de la solicitud actualizada...");
+            if(this.solicitudAct && this.solicitudAct != null){
+                console.log("Codigo de la solicitud: " + JSON.stringify(this.solicitudAct.codigoSolicitud));
                 //GUARDAMOS LOS RESPUESTOS DE LA SOLICITUD INGRESADA, UN LLAMADO POR TIPO DE REPUESTO
-
-                for(let key in this.repuestos2){
-                  if(this.repuestos2.hasOwnProperty(key)){
-                    this.solicitudService.guardarRepXSol(this.solicitud.codigoSolicitud,this.repuestos[key].id).subscribe({
-                      next: respxSol => {
-                        this.msgs = [];
-                        this.msgs.push({severity:'success', summary:'Solicitud creada', detail:''});
-                        this.alertService.success("Se ha creado el la solicitud");
-                        setTimeout(() => {}, 3000);
-                        this.ngOnInit();
-                      }
-                    }); 
-                  }
-                }
-
-                
             }else{
               this.msgs = [];
               this.msgs.push({severity:'danger', summary:'Error', detail:''});
@@ -165,8 +153,18 @@ export class SolicitudDetailComponent implements OnInit{
               setTimeout(() => {}, 3000);
               this.ngOnInit();
             }
-          },
-    */
+          },error: err=>{
+            //this.errorMessage=err,
+            this.msgs = [];
+            this.msgs.push({severity:'danger', summary:'Error', detail:'No se ha podido completar su consulta. Intente mas tarde'});
+            this.alertService.error("No se ha podido completar su consulta. Intente mas tarde.");
+            setTimeout(() => {}, 3000);
+            //this.ngOnInit();
+        }
+        });
+      }
+      
+      
     onBack(): void{
         this.router.navigate(['/verSolicitud']);
     }

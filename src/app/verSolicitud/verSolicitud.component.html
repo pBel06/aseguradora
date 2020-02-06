@@ -127,7 +127,7 @@
             <ng-template pTemplate="summary">
                 <ul>
                     <li *ngFor="let sol of _solicitudSelected" style="text-align: left">
-                       <a [routerLink]= "['/verSolicitud',sol.codigoSolicitud,sol.id]"> {{sol.codigoSolicitud}} </a>
+                       <a [routerLink]= "['/verSolicitudCS',sol.codigoSolicitud,sol.id,sol.estado]"> {{sol.codigoSolicitud}} </a>
                     </li>
                 </ul>
             </ng-template>

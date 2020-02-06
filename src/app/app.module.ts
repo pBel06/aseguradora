@@ -48,12 +48,13 @@ import { adminSolicitudesComponent } from './administrador/adminSolicitudes.comp
 import { DetailSolAdminComponent } from './administrador/detailSolAdmin.component';
 import { BuscadorComponent } from './administrador/buscador.component';
 import {ImageUploadModule} from 'angular2-image-upload';
+import { SolicitudCSDetailComponent } from './verSolicitud/solicitudCSDetail.component';
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,PreguntasUserComponent,ProductDetailComponent,
     WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent,verSolicitudComponent,SolicitudDetailComponent,SolicitudProveedorComponent,
-    DetailSolProvComponent,adminSolicitudesComponent,DetailSolAdminComponent,BuscadorComponent
+    DetailSolProvComponent,adminSolicitudesComponent,DetailSolAdminComponent,BuscadorComponent,SolicitudCSDetailComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule,ImageUploadModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
@@ -74,6 +75,7 @@ import {ImageUploadModule} from 'angular2-image-upload';
       {path: 'verSolicitud',component: verSolicitudComponent},
       //{path: 'products/:id',canActivate:[ProductDetailGuard],component: ProductDetailComponent},
       {path: 'verSolicitud/:codigoSolicitud/:id',component: SolicitudDetailComponent},
+      {path: 'verSolicitudCS/:codigoSolicitud/:id/:estado',component: SolicitudCSDetailComponent},
       {path: 'solicitudProveedor',component: SolicitudProveedorComponent},
       {path: 'solicitudProveedor/:codigoSolicitud/:id',component: DetailSolProvComponent},
       {path: 'administrador',component: adminSolicitudesComponent},

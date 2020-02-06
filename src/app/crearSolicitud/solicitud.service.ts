@@ -20,6 +20,7 @@ export class SolicitudService{
   private solicitudUrlBase = 'http://localhost:8014/autolink';
   userL: ILoginResponse;
   nuevaSolic: ISolicitud[];
+  updateEstadoSolic: ISolicitud[];
   repXSolRqst: IRepuestoXSolRqst;
   usuario: IUser;
   usrTaller: ITaller;
@@ -190,6 +191,29 @@ export class SolicitudService{
       }),
       catchError(this.handleError)
     );
+  }
+
+  updateStSolicitud(estado:string, id:number): Observable<ISolicitud>{
+
+    console.log("Guardando los respuestos de la solicitud");
+      //this.rep = JSON.parse(JSON.stringify(idRep));
+        this.updateEstadoSolic=JSON.parse(JSON.stringify({ 
+        id: id,
+        estado: estado     
+      }));
+
+      let body = this.updateEstadoSolic;
+      const httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json' 
+        })
+      };
+      console.log("Datos enviados al servicio para almacenar el repuesto de la solicitud: " + JSON.stringify(body));
+      return this.http.put<ISolicitud>(this.solicitudUrlBase+'/rest/solicitud/updateEstado', body, httpOptions).pipe(
+        tap(data => console.log('Repuesto actulizaco al estado ESC: ' +JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+
   }
 
 

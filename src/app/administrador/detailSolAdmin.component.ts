@@ -16,10 +16,13 @@ export class DetailSolAdminComponent implements OnInit{
     errorMessage:string;
     pageTitle: string = 'Detalle de solicitud';
     solicitudSeleccionada: ISolicitud;
+    solicitudAct: ISolicitud;
     repXSolicitud: IRepuestoXSol[] = [];
     solicitudTaller:FormGroup;
     msgs: Message[] = [];
     userLog: ILoginResponse;
+    id: number;
+
 
     //@ViewChild("codigoSol",{static:true}) tref: ElementRef;
     //@ViewChild("codigoSol",{static:true}) element: ElementRef;
@@ -49,10 +52,10 @@ export class DetailSolAdminComponent implements OnInit{
 
     ngOnInit(){
         let codigoSolicitud =this.route.snapshot.paramMap.get('codigoSolicitud');
-        let id = +this.route.snapshot.paramMap.get('id');
-        console.log("Cargando el detalle de la solicitud: " + codigoSolicitud+ " id:" + id);
+        this.id = +this.route.snapshot.paramMap.get('id');
+        console.log("Cargando el detalle de la solicitud: " + codigoSolicitud+ " id:" + this.id);
         this.pageTitle += `: ${codigoSolicitud}`;
-        this.consultarSolicitud(codigoSolicitud, id);
+        this.consultarSolicitud(codigoSolicitud, this.id);
     }
 
    /* ngAfterViewInit(): void {
@@ -134,8 +137,31 @@ export class DetailSolAdminComponent implements OnInit{
             });
       }//CIERRE DE consultarSolicitud
 
-      anularSol(){
+      anular(estado:string){
           console.log("Vamos a anular la solicitud por el admin");
+          this.solicitudService.updateStSolicitud(estado,this.id).subscribe({
+            next: solicitudAct => {
+                this.solicitudAct=solicitudAct;
+                console.log("Obteniendo la informacion de la solicitud actualizada...");
+                if(this.solicitudAct && this.solicitudAct != null){
+                    console.log("Codigo de la solicitud: " + JSON.stringify(this.solicitudAct.codigoSolicitud));
+                    //GUARDAMOS LOS RESPUESTOS DE LA SOLICITUD INGRESADA, UN LLAMADO POR TIPO DE REPUESTO
+                }else{
+                  this.msgs = [];
+                  this.msgs.push({severity:'danger', summary:'Error', detail:''});
+                  this.alertService.error("No se ha podido almacenar el repuesto.");
+                  setTimeout(() => {}, 3000);
+                  this.ngOnInit();
+                }
+              },error: err=>{
+                //this.errorMessage=err,
+                this.msgs = [];
+                this.msgs.push({severity:'danger', summary:'Error', detail:'No se ha podido completar su consulta. Intente mas tarde'});
+                this.alertService.error("No se ha podido completar su consulta. Intente mas tarde.");
+                setTimeout(() => {}, 3000);
+                //this.ngOnInit();
+            }
+            });
       }
 
       cancelar(){

@@ -4,7 +4,7 @@
   
             <div class="input-field" style="text-align: left;" >
               <!-- <label for="codigoSol">Codigo</label> -->
-                <input type="text" id="codigoSol" formControlName="codigoSol" class="validate" required disabled/>
+                <input type="text" id="codigoSol" formControlName="codigoSol" class="validate" required disabled #codigoSol/>
                
             </div>
   
@@ -85,19 +85,12 @@
             </div>
             <div>
                 <div class="input-field" style="display:inline-block;padding: 20px;">
-                    <label for="comentarios">Estado</label><br/><br/>
-                    <input type="text" id="estado" formControlName="estado" class="validate" required enabled/>
-                </div>
-            </div>
-            <div>
-                <div class="input-field" style="display:inline-block;padding: 20px;">
                     <label for="comentarios">Comentarios</label><br/><br/>
                     <input type="text" id="comentarios" formControlName="comentarios" class="validate" required disabled/>
                 </div>
             </div>
-            <div class="input-field" style="display:inline-block;padding: 20px;">
-                <button class="btn waves-effect waves-light" type="submit" (click)="anular('ANA')">Anular</button>
-                <button class="btn waves-effect waves-light" type="submit" name="action" (click)="cancelar()">Cancelar</button>
+            <div>
+                <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="updateStatusSolicitud('ESC')">Enviar</button>
             </div>
         </div>   
   </form>

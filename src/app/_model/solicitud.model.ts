@@ -4,6 +4,7 @@ import { IMarca } from './marca.model';
 import { IUser } from './user.model';
 
 export interface ISolicitud{
+		id:number;
 		idTaller: ITaller;
 		idAseguradora: IAseguradora;
 		idMarca: IMarca;
