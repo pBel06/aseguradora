@@ -134,7 +134,8 @@ export class CrearSolicitudComponent implements OnInit{
                         this.repuestos2[key] = {
                           id: this.repuestos[key].id,
                           nombre: this.repuestos[key].nombre,
-                          cantidad: 0
+                          cantidad: 0,
+                          editado:'N'
                         }
                         
                      }
@@ -161,7 +162,8 @@ export class CrearSolicitudComponent implements OnInit{
 
       onRowEditSave(rep: IRepsSolic) {
           if (rep.cantidad > 0) {
-              delete this.clonedRepuestos[rep.nombre];
+            delete this.clonedRepuestos[rep.nombre];
+
               console.log("Valor a guardar " + JSON.stringify(rep)); 
             //  this.messageService.add({severity:'success', summary: 'Success', detail:'Car is updated'});
           }
@@ -201,7 +203,7 @@ export class CrearSolicitudComponent implements OnInit{
 
                           for(let key in this.repuestos2){
                             if(this.repuestos2.hasOwnProperty(key)){
-                              this.solicitudService.guardarRepXSol(this.solicitud.codigoSolicitud,this.repuestos[key].id).subscribe({
+                              this.solicitudService.guardarRepXSol(this.solicitud.id,this.repuestos[key].id).subscribe({
                                 next: respxSol => {
                                   this.msgs = [];
                                   this.msgs.push({severity:'success', summary:'Solicitud creada', detail:''});

@@ -116,12 +116,12 @@ export class SolicitudService{
       );
     }
 
-    guardarRepXSol(codigoSolicitud:string,idRep: number):Observable<IRepuestoXSol>{
+    guardarRepXSol(id:number,idRep: number):Observable<IRepuestoXSol>{
       console.log("Guardando los respuestos de la solicitud");
       this.rep = JSON.parse(JSON.stringify(idRep));
         this.repXSolRqst=JSON.parse(JSON.stringify({ 
-        codigoSolicitud: codigoSolicitud,
-        idRepuesto: this.rep.id        
+        id: id,
+        idRepuesto: idRep    
       }));
 
       let body = this.repXSolRqst;

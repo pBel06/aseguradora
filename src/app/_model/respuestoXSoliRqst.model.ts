@@ -1,5 +1,5 @@
 export interface IRepuestoXSolRqst{
-    codigoSolicitud:string;
+    id:number;
 	idRepuesto:number;
 	estado:string;
     aplica:number;
