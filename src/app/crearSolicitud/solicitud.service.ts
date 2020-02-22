@@ -46,7 +46,7 @@ export class SolicitudService{
       );
     }
 
-      guardarSolicitud(estado:string,usuario:IUser,usrTaller:ITaller,crearSolicitudTaller:FormGroup,_marcaSeleccionada:string,_aseguradoraSeleccionada:string,_repuestoSeleccionado:string):Observable<ISolicitud>{
+      guardarSolicitud(estado:string,usuario:IUser,usrTaller:ITaller,crearSolicitudTaller:FormGroup,_marcaSeleccionada:string,_aseguradoraSeleccionada:string):Observable<ISolicitud>{
         console.log("Llamaremos al servicio para guardar una nueva solicitud .. ");
         this.fecha = new Date();
         this.minutos = parseInt(this.fecha.getMinutes().toString()) + parseInt(crearSolicitudTaller.controls['tiempo'].value);

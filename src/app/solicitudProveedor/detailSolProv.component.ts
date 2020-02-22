@@ -4,10 +4,13 @@ import { SolicitudService } from '../crearSolicitud/solicitud.service';
 import { ISolicitud } from '../_model/solicitud.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IRepuestoXSol } from '../_model/repuestpoXSoli.model';
-import { Message } from 'primeng/api';
+import { Message, SelectItem } from 'primeng/api';
 import { AlertService } from '../alert/alert.service';
 import { ILoginResponse } from '../_model/loginResponse.model';
 import { staticViewQueryIds } from '@angular/compiler';
+import { IRepuesto } from '../_model/repuesto.model';
+import { IRepsSolic } from '../_model/repsSol.model';
+import { RepuestoService } from '../repuestos/repuestos.service';
 
 @Component({ /* no podemos selector porque no lo sera un componente nested, sino que será una nueva pagina a mostrar por medio de enrutamiento*/
     templateUrl:'./detailSolProv.component.html'
@@ -16,15 +19,17 @@ export class DetailSolProvComponent implements OnInit{
     errorMessage:string;
     pageTitle: string = 'Detalle de solicitud';
     solicitudSeleccionada: ISolicitud;
+    solicitud: ISolicitud;
     repXSolicitud: IRepuestoXSol[] = [];
     solicitudTaller:FormGroup;
     msgs: Message[] = [];
     userLog: ILoginResponse;
+    piezas: SelectItem[]=[];
+    _repuestoSeleccionado: string;
+    repuestos: IRepuesto[];
+    repuestos2: IRepsSolic[] = [];
 
-    //@ViewChild("codigoSol",{static:true}) tref: ElementRef;
-    //@ViewChild("codigoSol",{static:true}) element: ElementRef;
-
-    constructor(private route:ActivatedRoute, private router:Router, private solicitudService:SolicitudService,private alertService:AlertService,private renderer: Renderer2){
+    constructor(private route:ActivatedRoute,private repuestoService:RepuestoService, private router:Router, private solicitudService:SolicitudService,private alertService:AlertService,private renderer: Renderer2){
         this.solicitudTaller = new FormGroup({
             codigoSol: new FormControl('',Validators.required),
             nombre: new FormControl('',Validators.required),
@@ -52,13 +57,42 @@ export class DetailSolProvComponent implements OnInit{
         console.log("Cargando el detalle de la solicitud: " + codigoSolicitud+ " id:" + id);
         this.pageTitle += `: ${codigoSolicitud}`;
         this.consultarSolicitud(codigoSolicitud, id);
-    }
 
-   /* ngAfterViewInit(): void {
-        // outputs `I am span`
-        console.log(this.tref.nativeElement.textContent);
-    }*/
- 
+         //CARGANDO LOS REPUESTOS 
+          
+          this.repuestoService.getRepuestos().subscribe({
+            next: repuestos => {
+              this.repuestos=repuestos;
+              console.log("Lista de repuestos registrados ...");
+              console.log(JSON.stringify(this.repuestos));
+              if(this.repuestos && this.repuestos.length > 0){
+                for(let key in this.repuestos){
+                     console.log("Llenamos el dropdownList de repuestos");
+                     if(this.repuestos.hasOwnProperty(key)){
+                        this.repuestos2[key] = {
+                          id: this.repuestos[key].id,
+                          nombre: this.repuestos[key].nombre,
+                          cantidad: 0,
+                          editado:'N'
+                        }
+                        
+                     }
+                }
+            }
+            console.log(JSON.stringify(this.repuestos2)); 
+
+              if(this.repuestos && this.repuestos.length > 0){
+                for(let key in this.repuestos){
+                     console.log("Llenamos el dropdownList de repuestos");
+                     if(this.repuestos.hasOwnProperty(key)){
+                         this.piezas.push({label: this.repuestos[key].nombre, value: {id:this.repuestos[key].id,nombre:this.repuestos[key].nombre}});
+                     }
+                }
+            } 
+            },
+            error: err=>this.errorMessage=err
+          }); 
+    } // cierre de onInit
 
     consultarSolicitud(codigoSolicitud: string, id: number){
          //CARGANDO LA INFORMACION DE LA SOLICITUD SELECCIONADA
@@ -69,6 +103,7 @@ export class DetailSolProvComponent implements OnInit{
          this.solicitudService.consultarSolicitudByCode(codigoSolicitud).subscribe({
             next: solicitud => {
                 if(solicitud != null){
+                    this.solicitud = solicitud;
                   /*  this.solicitudService.consultarRepXSol(id).subscribe({
                         next: repXSol => {
                             if(repXSol != null){
@@ -135,4 +170,22 @@ export class DetailSolProvComponent implements OnInit{
     onBack(): void{
         this.router.navigate(['/verSolicitud']);
     }
+
+/*
+    console.log("Codigo de la solicitud: " + JSON.stringify(this.solicitud.codigoSolicitud));
+    
+
+    for(let key in this.repuestos2){
+      if(this.repuestos2.hasOwnProperty(key)){
+        this.solicitudService.guardarRepXSol(this.solicitud.id,this.repuestos[key].id).subscribe({
+          next: respxSol => {
+            this.msgs = [];
+            this.msgs.push({severity:'success', summary:'Solicitud creada', detail:''});
+            this.alertService.success("Se ha creado el la solicitud");
+            setTimeout(() => {}, 3000);
+            this.ngOnInit();
+          }
+        }); 
+      } 
+    }*/
 }

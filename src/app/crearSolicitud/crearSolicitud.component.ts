@@ -28,10 +28,10 @@ export class CrearSolicitudComponent implements OnInit{
 
     cols: any[];
     clonedRepuestos: { [s: string]: IRepsSolic; } = {};
-    repuestos2: IRepsSolic[] = [];
+    
 
     _marcaSeleccionada: string;
-    _repuestoSeleccionado: string;
+    
     _repuestoSelected: IRepuesto[];
     _aseguradoraSeleccionada: string;
     crearSolicitudTaller:FormGroup;
@@ -39,10 +39,10 @@ export class CrearSolicitudComponent implements OnInit{
     codigo: string;
     marcasSource: IMarca[];
     aseguradoraSource: IAseguradora[];
-    repuestos: IRepuesto[];
+    
     solicitud: ISolicitud;
     
-    piezas: SelectItem[]=[];
+    
     marcasModelo: SelectItem[]=[];
     aseguradoras: SelectItem[]=[];
     
@@ -54,7 +54,7 @@ export class CrearSolicitudComponent implements OnInit{
         this._marcaSeleccionada = value;
     }
 
-    constructor(private marcaService:MarcaService, private repuestoService:RepuestoService, private asegService: AseguradoraService, private solicitudService: SolicitudService,private alertService:AlertService){
+    constructor(private marcaService:MarcaService, private asegService: AseguradoraService, private solicitudService: SolicitudService,private alertService:AlertService){
 
         this.crearSolicitudTaller = new FormGroup({
             codigoSol: new FormControl('',Validators.required),
@@ -120,62 +120,24 @@ export class CrearSolicitudComponent implements OnInit{
                 }
             }
         });
-
-          //CARGANDO LOS REPUESTOS 
-          this.repuestoService.getRepuestos().subscribe({
-            next: repuestos => {
-              this.repuestos=repuestos;
-              console.log("Lista de repuestos registrados ...");
-              console.log(JSON.stringify(this.repuestos));
-              if(this.repuestos && this.repuestos.length > 0){
-                for(let key in this.repuestos){
-                     console.log("Llenamos el dropdownList de repuestos");
-                     if(this.repuestos.hasOwnProperty(key)){
-                        this.repuestos2[key] = {
-                          id: this.repuestos[key].id,
-                          nombre: this.repuestos[key].nombre,
-                          cantidad: 0,
-                          editado:'N'
-                        }
-                        
-                     }
-                }
-            }
-            console.log(JSON.stringify(this.repuestos2));
-
-              /*if(this.repuestos && this.repuestos.length > 0){
-                for(let key in this.repuestos){
-                     console.log("Llenamos el dropdownList de repuestos");
-                     if(this.repuestos.hasOwnProperty(key)){
-                         this.piezas.push({label: this.repuestos[key].nombre, value: {id:this.repuestos[key].id,nombre:this.repuestos[key].nombre}});
-                     }
-                }
-            } */
-            },
-            error: err=>this.errorMessage=err
-          });
       }//CIERRE DE ONINIT
 
-      onRowEditInit(rep: IRepsSolic) {
+      /*onRowEditInit(rep: IRepsSolic) {
         this.clonedRepuestos[rep.nombre] = {...rep};
-      }
+      } */
 
-      onRowEditSave(rep: IRepsSolic) {
+      /*onRowEditSave(rep: IRepsSolic) {
           if (rep.cantidad > 0) {
             delete this.clonedRepuestos[rep.nombre];
 
               console.log("Valor a guardar " + JSON.stringify(rep)); 
-            //  this.messageService.add({severity:'success', summary: 'Success', detail:'Car is updated'});
+            
           }
           else {
-             // this.messageService.add({severity:'error', summary: 'Error', detail:'Year is required'});
+             
           }
-      }
-
-      /*onRowEditCancel(car: Car, index: number) {
-          this.cars2[index] = this.clonedCars[car.vin];
-          delete this.clonedCars[car.vin];
       } */
+
       
       limpiarForm(){
         console.log("reset del formulario de la solicitud ..");
@@ -193,27 +155,16 @@ export class CrearSolicitudComponent implements OnInit{
                 this.usrTaller = usrTaller;
                 console.log("Taller creador de la solicitud: " + JSON.stringify(this.usrTaller));
                 if(this.usrTaller != null){
-                  this.solicitudService.guardarSolicitud(estado,this.usuario,this.usrTaller,this.crearSolicitudTaller,this._marcaSeleccionada,this._aseguradoraSeleccionada,this._repuestoSeleccionado).subscribe({
+                  this.solicitudService.guardarSolicitud(estado,this.usuario,this.usrTaller,this.crearSolicitudTaller,this._marcaSeleccionada,this._aseguradoraSeleccionada).subscribe({
                     next: solicitudCreada => {
                       this.solicitud=solicitudCreada;
                       console.log("Obteniendo la informacion de la solicitud creada en estado borrador...");
                       if(this.solicitud && this.solicitud != null){
-                          console.log("Codigo de la solicitud: " + JSON.stringify(this.solicitud.codigoSolicitud));
-                          //GUARDAMOS LOS RESPUESTOS DE LA SOLICITUD INGRESADA, UN LLAMADO POR TIPO DE REPUESTO
-
-                          for(let key in this.repuestos2){
-                            if(this.repuestos2.hasOwnProperty(key)){
-                              this.solicitudService.guardarRepXSol(this.solicitud.id,this.repuestos[key].id).subscribe({
-                                next: respxSol => {
-                                  this.msgs = [];
-                                  this.msgs.push({severity:'success', summary:'Solicitud creada', detail:''});
-                                  this.alertService.success("Se ha creado el la solicitud");
-                                  setTimeout(() => {}, 3000);
-                                  this.ngOnInit();
-                                }
-                              }); 
-                            }
-                          }
+                        this.msgs = [];
+                        this.msgs.push({severity:'success', summary:'Éxito', detail:''});
+                        this.alertService.error("Se ha almacenado la solicitud.");
+                        setTimeout(() => {}, 3000);
+                        this.ngOnInit();
 
                           
                       }else{

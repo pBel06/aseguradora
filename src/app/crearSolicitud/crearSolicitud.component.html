@@ -96,13 +96,11 @@
          <input type="text" id="cantidadRep" formControlName="cantidadRep" class="validate" required/>
      </div> -->
 
-     <p-table [value]="repuestos2" [paginator]="true" [rows]="5" dataKey="nombre" editMode="row">
+     <!-- <p-table [value]="repuestos2" [paginator]="true" [rows]="5" dataKey="nombre" editMode="row">
          <ng-template pTemplate="header">
              <tr>
                  <th>nombre repuesto</th>
                  <th>valor</th>
-                 <!-- <th>Brand</th>
-                 <th>Color</th> -->
                  <th style="width:8em"></th>
              </tr>
          </ng-template>
@@ -112,14 +110,6 @@
                      {{rowData.nombre}}
                  </td>
                  <td>
-                     <!-- <p-cellEditor>
-                         <ng-template pTemplate="input">
-                             <input pInputText type="text" [(ngModel)]="rowData.valor" required>
-                         </ng-template>
-                         <ng-template pTemplate="output">
-                             {{rowData.valor}}
-                         </ng-template>
-                     </p-cellEditor> -->
                      <p-cellEditor>
                          <ng-template pTemplate="input">
                              <input pInputText type="text" [(ngModel)]="rowData.cantidad" required>
@@ -136,12 +126,11 @@
                  </td>
              </tr>
          </ng-template>
-     </p-table>
- </div>
+     </p-table>  -->
+ </div> 
 
   <!-- BOTONES -->
   <div>
     <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="limpiarForm()">Cancelar</button>
-    <!-- <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarSolicitud('Pendiente' ,rowData)">Guardar</button> -->
     <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarSolicitud('ING',rowData)">Enviar</button>
 </div>

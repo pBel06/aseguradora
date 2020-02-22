@@ -49,12 +49,13 @@ import { DetailSolAdminComponent } from './administrador/detailSolAdmin.componen
 import { BuscadorComponent } from './administrador/buscador.component';
 import {ImageUploadModule} from 'angular2-image-upload';
 import { SolicitudCSDetailComponent } from './verSolicitud/solicitudCSDetail.component';
+import { GuardarRepSolComponent } from './solicitudProveedor/guardarRepSol.component';
 
 @NgModule({
   declarations: [
     AppComponent,HeaderComponent,UserListComponent,ConvertToSpacesPipe,StarComponent,LoginComponent,PreguntasUserComponent,ProductDetailComponent,
     WelcomeComponent,SolicitudCorreoComponent, SideMenuComponent,ResetPassComponent,TallerListComponent,AseguradoraListComponent,MarcaListComponent,ProveedorListComponent,ModeloListComponent,AlertComponent,RepuestoListComponent,CallCenterComponent,CrearSolicitudComponent,verSolicitudComponent,SolicitudDetailComponent,SolicitudProveedorComponent,
-    DetailSolProvComponent,adminSolicitudesComponent,DetailSolAdminComponent,BuscadorComponent,SolicitudCSDetailComponent
+    DetailSolProvComponent,adminSolicitudesComponent,DetailSolAdminComponent,BuscadorComponent,SolicitudCSDetailComponent,GuardarRepSolComponent
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule,ImageUploadModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,
@@ -80,8 +81,10 @@ import { SolicitudCSDetailComponent } from './verSolicitud/solicitudCSDetail.com
       {path: 'solicitudProveedor/:codigoSolicitud/:id',component: DetailSolProvComponent},
       {path: 'administrador',component: adminSolicitudesComponent},
       {path: 'solicitudAdmin/:codigoSolicitud/:id',component: DetailSolAdminComponent},
+      {path: 'guardarRepSol/:codigoSolicitud/:id',component: GuardarRepSolComponent},
       {path: 'star',component: StarComponent},
-      {path: 'welcome',component: WelcomeComponent}
+      {path: 'welcome',component: WelcomeComponent},
+      
       //{path: '',component: WelcomeComponent,pathMatch: 'full'},
       //{path: '**',component: WelcomeComponent,pathMatch: 'full'} /* pagina 404*/
     ]) //,{useHash: true})

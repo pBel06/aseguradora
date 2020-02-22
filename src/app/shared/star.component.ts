@@ -18,6 +18,7 @@ export class StarComponent implements OnInit{
 
   
   fileData: File = null;
+  selectedFile: File = null;
 previewUrl:any = null;
 fileUploadProgress: string = null;
 uploadedFilePath: string = null;
@@ -53,15 +54,26 @@ preview() {
       this.previewUrl = reader.result; 
     }
 }
+
+fileSelected(event)
+{
+  this.selectedFile = <File>event.target.files[0];
+  var reader = new FileReader();      
+    reader.readAsDataURL(event.target.files[0]);
+};
  
-onSubmit() {
-    const formData = new FormData();
-      formData.append('file', this.fileData);
-      this.http.post('http://localhost:8014/autolink/rest/solicitud/foto/save', formData)
+subirArchivo() {
+    const dr = new FormData();
+      dr.append('dr', this.selectedFile);
+
+
+      this.http.put('http://4cdbf757.ngrok.io/autolink/rest/solicitud/foto/save/2',dr
+       
+      )
         .subscribe(res => {
           console.log(res);
-          this.uploadedFilePath = res.toString();
-          alert('SUCCESS !!');
+          //this.uploadedFilePath = res.toString();
+          alert('eexiitooo !!');
         })
 }
 
