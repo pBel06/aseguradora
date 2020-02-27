@@ -11,6 +11,7 @@ import { IRepuestoXSolRqst } from '../_model/respuestoXSoliRqst.model';
 import { IRepuestoXSol } from '../_model/repuestpoXSoli.model';
 import { IRepuesto } from '../_model/repuesto.model';
 import { formatNumber } from '@angular/common';
+import { IFotoXSolicitud } from '../_model/FotoxSol.model';
 
 @Injectable({
   providedIn: 'root'
@@ -136,6 +137,14 @@ export class SolicitudService{
         catchError(this.handleError)
       );
     }
+    
+    guardarFoto(idSolicitud:number,dr:FormData){
+      console.log("Almacenando la foto de la solicitud...");
+      return this.http.put(this.solicitudUrlBase+'/rest/solicitud/foto/save/'+idSolicitud,dr).pipe(
+        tap(data => console.log('Repuesto almacenado en la solicitud: ' +JSON.stringify(data))),
+        catchError(this.handleError)
+      );
+    }
 
   consultarSolicitudesAll(): Observable<ISolicitud[]>{
     console.log("Consultaremos el listado de solicitudes ingresadas.... ");
@@ -188,6 +197,20 @@ export class SolicitudService{
     return this.http.get<ISolicitud[]>(this.solicitudUrlBase+'/rest/solicitud/byEstado',httpOptions).pipe(
       tap(data => {
         console.log('Solicitud consultada: ' + JSON.stringify(data));
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+  consultarFotoSol(id:number):Observable<IFotoXSolicitud[]>{
+    console.log("Consultaremos las fotos de una solicitud.... ");
+    const httpOptions = {
+      headers: {'Content-Type': 'application/json'},
+      params: {id: id.toString()}
+    };
+    return this.http.get<IFotoXSolicitud[]>(this.solicitudUrlBase+'/rest/solicitud/foto',httpOptions).pipe(
+      tap(data => {
+        console.log('Fotos obtenidas desde el servidor: ' + JSON.stringify(data));
       }),
       catchError(this.handleError)
     );

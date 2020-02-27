@@ -28,6 +28,7 @@ export class GuardarRepSolComponent implements OnInit{
     _repuestoSeleccionado:  string;
     repuestos: IRepuesto[];
     repuestos2: IRepsSolic[] = [];
+    selectedFile: File = null;
 
     constructor(private route:ActivatedRoute,private repuestoService:RepuestoService, private router:Router, private solicitudService:SolicitudService,private alertService:AlertService,private renderer: Renderer2){
         this.solicitudTaller = new FormGroup({
@@ -139,5 +140,26 @@ export class GuardarRepSolComponent implements OnInit{
                         this.onBack();
                     }
                 });
+    }
+
+    fileSelected(event){
+        this.selectedFile = <File>event.target.files[0];
+        var reader = new FileReader();      
+        reader.readAsDataURL(event.target.files[0]);
+    };
+
+    subirArchivo() {
+        const dr = new FormData();
+          dr.append('dr', this.selectedFile);
+    
+          this.solicitudService.guardarFoto(this.solicitud.id,dr).subscribe({
+            next: respxSol => {
+                this.msgs = [];
+                this.msgs.push({severity:'success', summary:'Foto guardada', detail:''});
+                this.alertService.success("Se ha guardado la foto");
+                setTimeout(() => {}, 3000);
+                this.onBack();
+            }
+        });
     }
 }

@@ -170,22 +170,4 @@ export class DetailSolProvComponent implements OnInit{
     onBack(): void{
         this.router.navigate(['/verSolicitud']);
     }
-
-/*
-    console.log("Codigo de la solicitud: " + JSON.stringify(this.solicitud.codigoSolicitud));
-    
-
-    for(let key in this.repuestos2){
-      if(this.repuestos2.hasOwnProperty(key)){
-        this.solicitudService.guardarRepXSol(this.solicitud.id,this.repuestos[key].id).subscribe({
-          next: respxSol => {
-            this.msgs = [];
-            this.msgs.push({severity:'success', summary:'Solicitud creada', detail:''});
-            this.alertService.success("Se ha creado el la solicitud");
-            setTimeout(() => {}, 3000);
-            this.ngOnInit();
-          }
-        }); 
-      } 
-    }*/
 }

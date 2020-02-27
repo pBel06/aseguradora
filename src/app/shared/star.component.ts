@@ -67,9 +67,7 @@ subirArchivo() {
       dr.append('dr', this.selectedFile);
 
 
-      this.http.put('http://4cdbf757.ngrok.io/autolink/rest/solicitud/foto/save/2',dr
-       
-      )
+      this.http.put('http://4cdbf757.ngrok.io/autolink/rest/solicitud/foto/save/2',dr)
         .subscribe(res => {
           console.log(res);
           //this.uploadedFilePath = res.toString();

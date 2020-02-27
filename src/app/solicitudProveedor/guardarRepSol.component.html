@@ -96,7 +96,20 @@
         </div>   
   </form>
 
+    <div class="col s12">
+        <h5>Seleccionar foto</h5>
+        <!-- <p-fileUpload name="myfile[]" url="C:\Proyectos\original\aseguradora\aseguradora\src\app\upload" withCredentials="false" customUpload="true" (uploadHandler)="addHeaders($event)" method="POST" multiple="multiple" accept="image/*">
+            <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                    <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+                </ul>
+            </ng-template></p-fileUpload> -->
+        <input id="file-upload" type="file" (change)="fileSelected($event)"/>
+        <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="subirArchivo()">Guardar Foto</button>
+       <!-- <button type="button" class="btn btn-success" (click)="subirArchivo()"> Subir imagen </button> -->     
+    </div>
+
    <!-- BOTONES -->
-   <div>
-    <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarRepuesto()">Guardar</button>
-</div>
+    <div>
+        <button class="button" style="display:inline-block;padding: 20px;margin:20px;" type="submit" (click)="guardarRepuesto()">Guardar Repuesto</button>
+    </div>
