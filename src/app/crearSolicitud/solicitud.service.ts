@@ -47,11 +47,15 @@ export class SolicitudService{
       );
     }
 
-      guardarSolicitud(estado:string,usuario:IUser,usrTaller:ITaller,crearSolicitudTaller:FormGroup,_marcaSeleccionada:string,_aseguradoraSeleccionada:string):Observable<ISolicitud>{
+      guardarSolicitud(estado:string,usuario:IUser,usrTaller:ITaller,crearSolicitudTaller:FormGroup,_tiempo:string,_marcaSeleccionada:string,_aseguradoraSeleccionada:string):Observable<ISolicitud>{
         console.log("Llamaremos al servicio para guardar una nueva solicitud .. ");
         this.fecha = new Date();
-        this.minutos = parseInt(this.fecha.getMinutes().toString()) + parseInt(crearSolicitudTaller.controls['tiempo'].value);
-        console.log("Minutos fin: " + this.minutos);
+        let tiempoFinal: Date;
+    tiempoFinal = new Date(_tiempo);
+
+        console.log("Fecha fin: " + tiempoFinal);
+       // this.minutos = parseInt(this.fecha.getMinutes().toString()) + parseInt(crearSolicitudTaller.controls['tiempo'].value);
+        //console.log("Minutos fin: " + this.minutos);
         this.nuevaSolic=JSON.parse(JSON.stringify({ 
           /*****************************  ESTRUCTURA SOLICITUD ************************************* */ 
         idTaller: usrTaller,
@@ -70,7 +74,8 @@ export class SolicitudService{
         estado: estado,
         comentariosTaller: crearSolicitudTaller.controls['comentarios'].value,
         fechaInicio: this.fecha,
-        fechaFin: new Date().setMinutes(this.minutos)
+        //fechaFin: new Date().setMinutes(this.minutos)
+        fechaFin: tiempoFinal
       }));
 
       let body = this.nuevaSolic;
@@ -79,7 +84,7 @@ export class SolicitudService{
           'Content-Type': 'application/json' 
         })
       };
-      console.log("Datos enviados al servicio para almacenar el nuevo taller: " + JSON.stringify(body));
+      console.log("Datos enviados al servicio para almacenar la nueva solicitud: " + JSON.stringify(body));
       return this.http.post<ISolicitud>(this.solicitudUrlBase+'/rest/solicitud/save', body, httpOptions).pipe(
         tap(data => console.log('Solicitud almacenada: ' +JSON.stringify(data))),
         catchError(this.handleError)

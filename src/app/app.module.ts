@@ -19,6 +19,7 @@ import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FileUploadModule} from 'primeng/fileupload';
 import {ListboxModule} from 'primeng/listbox';
 import {CarouselModule} from 'primeng/carousel';
+import {CalendarModule} from 'primeng/calendar';
 
 import { LoginComponent } from "./login/login.component";
 import { UserListComponent } from './users/user-list.component';
@@ -60,7 +61,7 @@ import { GuardarRepSolComponent } from './solicitudProveedor/guardarRepSol.compo
     DetailSolProvComponent,adminSolicitudesComponent,DetailSolAdminComponent,BuscadorComponent,SolicitudCSDetailComponent,GuardarRepSolComponent
   ],
   imports: [
-    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule,ImageUploadModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,ListboxModule,CarouselModule,
+    BrowserModule,BrowserAnimationsModule,FormsModule,PanelModule,DropdownModule,TableModule,HttpClientModule,ImageUploadModule, ReactiveFormsModule,DialogModule,InputTextModule,PaginatorModule,GrowlModule,NgbModule,AutoCompleteModule,FileUploadModule,ListboxModule,CarouselModule,CalendarModule,
     RouterModule.forRoot([
       {path: 'login',component: LoginComponent},
       {path: 'solicitudCorreo',component: SolicitudCorreoComponent},

@@ -67,9 +67,13 @@
                     <p-dropdown [options]="aseguradoras" formControlName="aseguradora" [(ngModel)]="_aseguradoraSeleccionada" class="validate" required></p-dropdown>
                     <!-- <p>Aseguradora: {{_aseguradoraSeleccionada ? _aseguradoraSeleccionada: 'none'}}</p> -->
                 </div>
-                <div class="input-field" style="display:inline-block;padding: 20px;">
+                <!-- <div class="input-field" style="display:inline-block;padding: 20px;">
                     <label for="tiempo">Tiempo</label><br/><br/>
                     <input type="text" id="tiempo" formControlName="tiempo" class="validate" required/>
+                </div> -->
+                <div class="ui-g-12 ui-md-4">
+                    <h3>Fecha Fin</h3>
+                    <p-calendar formControlName="fechaFin" [(ngModel)]="_tiempo" [showTime]="true"></p-calendar>
                 </div>
             </div>
            

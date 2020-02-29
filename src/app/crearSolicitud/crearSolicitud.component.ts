@@ -35,6 +35,7 @@ export class CrearSolicitudComponent implements OnInit{
     _repuestoSelected: IRepuesto[];
     _aseguradoraSeleccionada: string;
     crearSolicitudTaller:FormGroup;
+    _tiempo: string;
 
     codigo: string;
     marcasSource: IMarca[];
@@ -69,7 +70,7 @@ export class CrearSolicitudComponent implements OnInit{
             siniestro: new FormControl('',Validators.required),
             poliza: new FormControl('',Validators.required),
             aseguradora: new FormControl('',Validators.required),
-            tiempo: new FormControl('',Validators.required),
+            fechaFin: new FormControl('',Validators.required),
             repuestos: new FormControl('',Validators.required),
             cantidadRep: new FormControl('',Validators.required),
             comentarios: new FormControl('',Validators.required)
@@ -155,7 +156,8 @@ export class CrearSolicitudComponent implements OnInit{
                 this.usrTaller = usrTaller;
                 console.log("Taller creador de la solicitud: " + JSON.stringify(this.usrTaller));
                 if(this.usrTaller != null){
-                  this.solicitudService.guardarSolicitud(estado,this.usuario,this.usrTaller,this.crearSolicitudTaller,this._marcaSeleccionada,this._aseguradoraSeleccionada).subscribe({
+                  console.log("Fecha fin a guardar " + JSON.stringify(this._tiempo));
+                  this.solicitudService.guardarSolicitud(estado,this.usuario,this.usrTaller,this.crearSolicitudTaller,this._tiempo,this._marcaSeleccionada,this._aseguradoraSeleccionada).subscribe({
                     next: solicitudCreada => {
                       this.solicitud=solicitudCreada;
                       console.log("Obteniendo la informacion de la solicitud creada en estado borrador...");
@@ -164,7 +166,7 @@ export class CrearSolicitudComponent implements OnInit{
                         this.msgs.push({severity:'success', summary:'Éxito', detail:''});
                         this.alertService.error("Se ha almacenado la solicitud.");
                         setTimeout(() => {}, 3000);
-                        this.ngOnInit();
+                        this.limpiarForm();
 
                           
                       }else{
@@ -172,7 +174,7 @@ export class CrearSolicitudComponent implements OnInit{
                         this.msgs.push({severity:'danger', summary:'Error', detail:''});
                         this.alertService.error("No se ha podido almacenar el repuesto.");
                         setTimeout(() => {}, 3000);
-                        this.ngOnInit();
+                        this.limpiarForm();
                       }
                     },
                     error: err=>this.errorMessage=err
@@ -182,7 +184,7 @@ export class CrearSolicitudComponent implements OnInit{
                   this.msgs.push({severity:'danger', summary:'Error', detail:''});
                   this.alertService.error("No se ha encontrado el taller para el usuario logeado.");
                   setTimeout(() => {}, 3000);
-                  this.ngOnInit();
+                  this.limpiarForm();
                 }
               });//cierre de consultar el taller del usuario              
             }else{
@@ -190,7 +192,7 @@ export class CrearSolicitudComponent implements OnInit{
               this.msgs.push({severity:'danger', summary:'Error', detail:''});
               this.alertService.error("No se ha encontrado el usuario. Intente mas tarde");
               setTimeout(() => {}, 3000);
-              this.ngOnInit();
+              this.limpiarForm();
             }//cierre validacion de usuario != null
         }); // cierre consultar usuario
       }//CIERRE DE GUARDAR SOLICITUD
